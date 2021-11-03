@@ -1,0 +1,15 @@
+{% extends 'hospital/base.html' %}
+{% block content %}
+
+<h2>{{doctor}}</h2>
+<hr>
+<p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
+<p>Gender: {{doctor.gender}}</p>
+<p>Department: {{doctor.department}}</p>
+<p>Mobile: {{doctor.phone}}</p>
+<p>Email: {{doctor.email}}</p>
+<hr>
+<p>Schedule: <p>{{doctor.schedule}}</p></p>
+
+
+{% endblock %}

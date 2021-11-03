@@ -1,0 +1,13 @@
+{% extends 'hospital/base.html' %}
+{% block content %}
+<h2>Deleting {{doctor}}</h2>
+
+<form action="" method=POST>
+    {% csrf_token %}
+<p>Are you sure you want to delete "{{doctor}}" ?</p>
+<a href="{% url 'doctor-list' %}">Go back</a>
+<hr>
+<input type="submit" value="DELETE">
+</form>
+
+{% endblock %}
