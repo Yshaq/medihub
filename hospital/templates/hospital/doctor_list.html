@@ -1,0 +1,17 @@
+{% extends 'hospital/base.html' %}
+{% block content %}
+
+<h2>List of Doctors:</h2>
+<ul>
+    {% for doctor in list_of_doctors %}
+    <li>{{doctor}} : 
+        <a href="{% url 'doctor-detail' doctor.id %}">View</a> |
+        <a href="{% url 'edit-doctor' doctor.id %}">Edit</a> |
+        <a href="{% url 'delete-doctor' doctor.id %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'create-doctor' %}">Create new doctor</a></p>
+
+{% endblock %}
