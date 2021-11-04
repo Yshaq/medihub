@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 
-from hospital.models import Doctor
-from .forms import DoctorForm
+from .models import Doctor, Patient, Appointment
+from .forms import DoctorForm, PatientForm
 from django.contrib import messages
 
 # Create your views here.
@@ -10,6 +10,10 @@ def landingPageView(request):
 
 def indexView(request):
     return render(request, 'hospital/index.html')
+
+#=================================================
+#           DOCTOR MODEL CRUD
+#=================================================
 
 def doctorListView(request):
     doctorList = Doctor.objects.all()
@@ -38,7 +42,7 @@ def createDoctorView(request):
     context = {
         'form': form,
     }
-    return render(request, 'hospital/doctor_form.html', context)
+    return render(request, 'hospital/model_form.html', context)
 
 def editDoctorView(request, id):
     doctor = get_object_or_404(Doctor, pk=id)
@@ -54,7 +58,7 @@ def editDoctorView(request, id):
         'form': form,
     }
 
-    return render(request, 'hospital/doctor_form.html', context)
+    return render(request, 'hospital/model_form.html', context)
 
 def deleteDoctorView(request, id):
     doctor = get_object_or_404(Doctor, pk=id)
@@ -66,3 +70,64 @@ def deleteDoctorView(request, id):
         'doctor': doctor,
     }
     return render(request, 'hospital/delete_doctor.html', context)
+
+#=================================================
+#           PATIENT MODEL CRUD
+#=================================================
+
+def patientListView(request):
+    patientList = Patient.objects.all()
+    context = {
+        'list_of_patients': patientList,
+    }
+    return render(request, 'hospital/patient_list.html', context)
+
+def patientDetailView(request, id):
+    patient = get_object_or_404(Patient, pk=id)
+    context = {
+        'patient': patient,
+    }
+    return render(request, 'hospital/patient_detail.html', context)
+
+def createPatientView(request):
+    form = PatientForm()
+    if (request.method == 'POST'):
+        form = PatientForm(request.POST)
+        if(form.is_valid()):
+            form.save()
+            return redirect('patient-list')
+        else:
+            messages.error(request, 'invalid form')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'hospital/model_form.html', context)
+
+def editPatientView(request, id):
+    patient = get_object_or_404(Patient, pk=id)
+    form = PatientForm(instance=patient)
+
+    if (request.method == 'POST'):
+        form = PatientForm(request.POST, request.FILES, instance=patient)
+        if form.is_valid():
+            form.save()
+            return redirect('patient-list')
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'hospital/model_form.html', context)
+
+def deletePatientView(request, id):
+    patient = get_object_or_404(Patient, pk=id)
+    if(request.method == 'POST'):
+        patient.delete()
+        return redirect('patient-list')
+
+    context = {
+        'patient': patient,
+    }
+    return render(request, 'hospital/delete_patient.html', context)
+
