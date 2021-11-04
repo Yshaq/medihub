@@ -9,12 +9,28 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
+  <nav class="navbar navbar-dark navbar-expand-md sticky-top bg-primary">
+    <div class="container-fluid"><a class="navbar-brand text-center" href="#" style="margin: 0px 0px;">HOSPITAL SYSTEM</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div
+            class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav text-light ml-auto">
+                <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'index' %}">HOME</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href=#>ABOUT</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'Login-page' %}">LOGIN</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'create_account-page' %}">CREATE ACCOUNT</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href=#>ADMIN LOGIN</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+  
     <div class="container-fluid">
         <div class="row">
           <div class="col-sm-2">
               <h3>MEDIHUB</h3>
             <ul class="sidebar-nav">
                 <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'doctor-list' %}">Doctors</a></li>
               
             </ul>
           </div>
