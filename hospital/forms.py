@@ -1,5 +1,6 @@
 from django.forms import ModelForm
 from .models import Doctor, Patient, Appointment
+from django import forms
 
 class DoctorForm(ModelForm):
     class Meta:

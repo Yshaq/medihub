@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 
 from .models import Doctor, Patient, Appointment
-from .forms import DoctorForm, PatientForm
+from .forms import DoctorForm, PatientForm, AppointmentForm
 from django.contrib import messages
 
 # Create your views here.
@@ -131,3 +131,62 @@ def deletePatientView(request, id):
     }
     return render(request, 'hospital/delete_patient.html', context)
 
+#=================================================
+#           APPOINTMENT MODEL CRUD
+#=================================================
+
+def appointmentListView(request):
+    appointmentList = Appointment.objects.all()
+    context = {
+        'list_of_appointments': appointmentList,
+    }
+    return render(request, 'hospital/appointment_list.html', context)
+
+def appointmentDetailView(request, id):
+    appointment = get_object_or_404(Appointment, pk=id)
+    context = {
+        'appointment': appointment,
+    }
+    return render(request, 'hospital/appointment_detail.html', context)
+
+def createAppointmentView(request):
+    form = AppointmentForm()
+    if (request.method == 'POST'):
+        form = AppointmentForm(request.POST)
+        if(form.is_valid()):
+            form.save()
+            return redirect('appointment-list')
+        else:
+            messages.error(request, 'invalid form')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'hospital/model_form.html', context)
+
+def editAppointmentView(request, id):
+    appointment = get_object_or_404(Appointment, pk=id)
+    form = AppointmentForm(instance=appointment)
+
+    if (request.method == 'POST'):
+        form = AppointmentForm(request.POST, request.FILES, instance=appointment)
+        if form.is_valid():
+            form.save()
+            return redirect('appointment-list')
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'hospital/model_form.html', context)
+
+def deleteAppointmentView(request, id):
+    appointment = get_object_or_404(Appointment, pk=id)
+    if(request.method == 'POST'):
+        appointment.delete()
+        return redirect('appointment-list')
+
+    context = {
+        'appointment': appointment,
+    }
+    return render(request, 'hospital/delete_appointment.html', context)
