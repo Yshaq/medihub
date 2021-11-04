@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from hospital.views import landingPageView
+from hospital.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landingPageView, name='landing-page'),
     path('hospital/', include('hospital.urls')),
+    
 ]
