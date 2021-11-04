@@ -1,6 +1,7 @@
 {% extends 'hospital/base.html'  %}
-    
+
 {% block content %}
+{% include 'hospital/navbar.html' %}
 <div class="login-dark" >
     <form class="custom-form" style="margin-top: 0px;" method="post">
     	{% csrf_token %}

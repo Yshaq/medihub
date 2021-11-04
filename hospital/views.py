@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 
 
-from .forms import DoctorForm
+from .forms import DoctorForm, PatientForm
 from django.contrib import messages
 
 # Create your views here.
@@ -45,7 +45,7 @@ def loginpage(request):
 	return render(request,'hospital/login.html',context)
 
 
-def createaccountpage(request):
+def PatientRegisteration(request):
 	error = ""
 	user="none"
 	if request.method == 'POST':
@@ -62,7 +62,7 @@ def createaccountpage(request):
 		try:
 			if password == repeatpassword:
 				Patient.objects.create(first_name=first_name,last_name=last_name,email=email,password=password,gender=gender,phone=phonenumber,address=address,dob=birthdate)
-				user = User.objects.create_user(first_name=first_name,email=email,password=password,username=first_name)
+				user = User.objects.create_user(first_name=first_name,email=email,username=email)
 				pat_group = Group.objects.get(name='Patients')
 				pat_group.user_set.add(user)
 				#print(pat_group)
@@ -76,8 +76,25 @@ def createaccountpage(request):
 			print("Error:",e)
 	context = {'error' : error}
 	#print(error)
-	return render(request,'hospital/createaccount.html',context)
+	return render(request,'hospital/patientregistration.html',context)
+
 			
+def Login_admin(request):
+	error = ""
+	if request.method == 'POST':
+		u = request.POST['username']
+		p = request.POST['password']
+		user = authenticate(username=u,password=p)
+		try:
+			if user.is_staff:
+				login(request,user)
+				error = "no"
+			else:
+				error = "yes"
+		except:
+			error = "yes"
+	d = {'error' : error}
+	return render(request,'hospital/AdminLogin.html',d)
 
 
 def doctorListView(request):
@@ -135,3 +152,14 @@ def deleteDoctorView(request, id):
 		'doctor': doctor,
 	}
 	return render(request, 'hospital/delete_doctor.html', context)
+def AdminHome(request):
+	#after login user comes to this page.
+	if not request.user.is_staff:
+		return redirect('login_admin')
+	return render(request,'hospital/admindashboard.html')
+
+def Logout_admin(request):
+	if not request.user.is_staff:
+		return redirect('login_admin')
+	logout(request)
+	return redirect('login_admin')
