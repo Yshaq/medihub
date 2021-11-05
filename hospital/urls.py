@@ -20,5 +20,7 @@ urlpatterns = [
     path('appointment/create', views.createAppointmentView, name='create-appointment'),
     path('appointment/edit/<int:id>', views.editAppointmentView, name='edit-appointment'),
     path('appointment/delete/<int:id>', views.deleteAppointmentView, name='delete-appointment'),
+
+    path('registration-doctor/', views.doctorRegistration, name='doctor-registration'),
     
 ]
