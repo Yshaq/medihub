@@ -1,0 +1,33 @@
+{% extends 'hospital/base.html'  %}
+
+{% block content %}
+{% include 'hospital/navbar.html' %}
+<div class="login-dark" >
+    <form class="custom-form" style="margin-top: 0px;" method="post">
+    	{% csrf_token %}
+        <h2 class="sr-only">Login Form</h2>
+        <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
+        <div class="form-group">
+            <label>Username</label>
+            <input class="form-control" type="text" name="username" placeholder="Username"></div>
+        <div class="form-group">
+            <label>Password</label>
+            <input class="form-control" type="password" name="password" placeholder="Password"></div>
+        <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div>
+    </form>
+</div>
+<!-- {% ifequal error "no" %}
+<script type="text/javascript">
+    alert('Login Sucessful..........')
+    window.location = ("hospital/patientdashboard.html")
+</script>
+{% endifequal%}
+
+{% ifequal error "yes" %}
+<script type="text/javascript">
+    
+    alert('Invalid username or password')
+</script>
+
+{% endifequal%} -->
+{% endblock %}  

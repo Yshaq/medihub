@@ -1,6 +1,6 @@
 {% extends 'hospital/base.html' %}
 {% block content %}
-
+{% include 'hospital/admin_nav.html' %}
 <h2>List of Appointments:</h2>
 <ul>
     {% for appointment in list_of_appointments %}
