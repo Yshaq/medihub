@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from .models import Doctor, Patient, Appointment
 from .forms import DoctorForm, PatientForm, AppointmentForm
 from django.contrib import messages
+from django.contrib.auth.models import User, Group
+from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
 def landingPageView(request):
@@ -10,6 +12,38 @@ def landingPageView(request):
 
 def indexView(request):
     return render(request, 'hospital/index.html')
+
+def doctorRegistration(request):
+    error = ""
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        gender = request.POST['gender']
+        birthdate = request.POST['dateofbirth']
+        department = request.POST['department']
+        phonenumber = request.POST['phonenumber']
+        email = request.POST['email']
+        password = request.POST['password']
+        repeatpassword = request.POST['repeatpassword']
+        address = request.POST['address']
+
+        if password == repeatpassword:          
+            user = User.objects.create_user(username=email, first_name=first_name, last_name=last_name, email=email, password = password)
+
+            doc_grp = Group.objects.get_or_create(name = 'Doctors-waiting')[0]
+            doc_grp.user_set.add(user)
+            user.save()
+
+            doctor = Doctor.objects.create(user=user, first_name=first_name, last_name=last_name, gender=gender, dob=birthdate, department=department, phone=phonenumber, address=address, email=email)
+            messages.success(request, "Doctor account created, waiting for approval.")
+            return redirect('index')
+
+        else:
+            messages.error(request, "Passwords do not match")
+
+    context = {'error' : error}
+    return render(request, 'hospital/doctor_registration.html', context)
+
 
 #=================================================
 #           DOCTOR MODEL CRUD
@@ -190,3 +224,5 @@ def deleteAppointmentView(request, id):
         'appointment': appointment,
     }
     return render(request, 'hospital/delete_appointment.html', context)
+
+#==========================================================
