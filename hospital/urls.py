@@ -13,4 +13,19 @@ urlpatterns = [
     path('admin_login/',views.Login_admin,name='login_admin'),
     path('adminhome/',views.AdminHome,name='admindashboard'),
     path('adminlogout/',views.Logout_admin,name='adminlogout'),
+
+    path('patients/', views.patientListView, name='patient-list'),
+    path('patient/<int:id>', views.patientDetailView, name='patient-detail'),
+    path('patient/create', views.createPatientView, name='create-patient'),
+    path('patient/edit/<int:id>', views.editPatientView, name='edit-patient'),
+    path('patient/delete/<int:id>', views.deletePatientView, name='delete-patient'),
+
+    path('appointments/', views.appointmentListView, name='appointment-list'),
+    path('appointment/<int:id>', views.appointmentDetailView, name='appointment-detail'),
+    path('appointment/create', views.createAppointmentView, name='create-appointment'),
+    path('appointment/edit/<int:id>', views.editAppointmentView, name='edit-appointment'),
+    path('appointment/delete/<int:id>', views.deleteAppointmentView, name='delete-appointment'),
+
+    path('registration-doctor/', views.doctorRegistration, name='doctor-registration'),
+    
 ]

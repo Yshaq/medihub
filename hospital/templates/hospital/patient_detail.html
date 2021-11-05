@@ -1,0 +1,14 @@
+{% extends 'hospital/base.html' %}
+{% block content %}
+{% include 'hospital/admin_nav.html' %}
+<h2>{{patient}}</h2>
+<hr>
+<p>Name: {{patient.first_name}} {{patient.last_name}}</p>
+<p>Gender: {{patient.gender}}</p>
+<p>Date of Birth: {{patient.dob}}</p>
+<p>Mobile: {{patient.phone}}</p>
+<p>Email: {{patient.email}}</p>
+<p>Address: {{patient.address}}</p>
+
+
+{% endblock %}

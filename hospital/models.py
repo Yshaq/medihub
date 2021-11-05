@@ -49,7 +49,11 @@ class Patient(models.Model):
 class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, null=True, blank=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True)
-    time = models.DateTimeField(null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
+    time = models.TimeField(null=True, blank=True)
     details = models.TextField(max_length=1000, null=True, blank=True)
     confirmed = models.BooleanField(default=False)
     completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.doctor} with {self.patient} on {self.date}'

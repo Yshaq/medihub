@@ -1,0 +1,17 @@
+{% extends 'hospital/base.html' %}
+{% block content %}
+{% include 'hospital/admin_nav.html' %}
+<h2>List of Appointments:</h2>
+<ul>
+    {% for appointment in list_of_appointments %}
+    <li>{{appointment}} : 
+        <a href="{% url 'appointment-detail' appointment.id %}">View</a> |
+        <a href="{% url 'edit-appointment' appointment.id %}">Edit</a> |
+        <a href="{% url 'delete-appointment' appointment.id %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'create-appointment' %}">Create new Appointment</a></p>
+
+{% endblock %}
