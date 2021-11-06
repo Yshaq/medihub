@@ -9,8 +9,8 @@ urlpatterns = [
     # path('doctor/edit/<int:id>', views.editDoctorView, name='edit-doctor'),
     # path('doctor/delete/<int:id>', views.deleteDoctorView, name='delete-doctor'),
 
-    path('login/', views.loginView, name='login-page'),
-    path('register/', views.patientRegistration, name='patient-registration'),
+    #path('login/', views.loginView, name='login-page'),
+    #path('register/', views.patientRegistration, name='patient-registration'),
     #path('admin_login/',views.Login_admin,name='login_admin'),
     #path('adminhome/',views.AdminHome,name='admindashboard'),
     #path('adminlogout/',views.Logout_admin,name='adminlogout'),

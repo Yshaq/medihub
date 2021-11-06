@@ -1,0 +1,12 @@
+{% extends 'patientapp/base.html' %}
+
+{% block content %}
+<div id="wrapper">
+   
+    <div class="page-content-wrapper">
+        <div class="container-fluid"><a class="btn btn-link" role="button" id="menu-toggle" href="#menu-toggle"><i class="fa fa-bars" ></i></a>
+            <h1 class="text-center" > logged in..{{ user.username }}</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
