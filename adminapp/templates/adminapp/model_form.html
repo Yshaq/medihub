@@ -1,6 +1,5 @@
-{% extends 'hospital/base.html' %}
+{% extends 'adminapp/base.html' %}
 {% block content %}
-{% include 'hospital/admin_nav.html' %}
 <form action="" method="POST">
     {% csrf_token %}
     {{form.as_p}}

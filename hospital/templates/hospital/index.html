@@ -8,9 +8,7 @@
     <p>Hello {{user.first_name}} {{user.last_name}}</p>
 
 {% else %}
-    <p>You haven't logged in yet! Head to the
-        <a href="{% url 'login-page' %}">Login Page</a>
-    </p>
+    <p>You haven't logged in yet!</p>
 {% endif %}
 
 {% endblock %}

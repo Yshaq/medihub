@@ -1,13 +1,18 @@
 <nav class="navbar navbar-dark navbar-expand-md sticky-top bg-primary">
-    <div class="container-fluid"><a class="navbar-brand text-center" href="{% url 'admindashboard' %}" style="margin: 0px 0px;">MEDIHUB</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="container-fluid"><a class="navbar-brand text-center" href="{% url 'admin-dashboard' %}" style="margin: 0px 0px;">MEDIHUB</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div
             class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav  text-light ml-auto" >
-                <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'admindashboard' %}">Dashboard</a></li>
+                {% if request.user.is_authenticated %}
+                <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'admin-dashboard' %}">Dashboard</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'doctor-list' %}">Doctors</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'patient-list' %}">Patients</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'appointment-list' %}">Appointments</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'index' %}">Home</a></li>
+
+                {% endif %}
             </ul>
         </div>
     </div>
