@@ -33,7 +33,6 @@ class Patient(models.Model):
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    password = models.CharField(max_length=16,default=12345)
     first_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
