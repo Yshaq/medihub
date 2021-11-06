@@ -1,0 +1,16 @@
+{% extends 'adminapp/base.html' %}
+{% block content %}
+<h2>List of Patients:</h2>
+<ul>
+    {% for patient in list_of_patients %}
+    <li>{{patient}} : 
+        <a href="{% url 'patient-detail' patient.id %}">View</a> |
+        <a href="{% url 'edit-patient' patient.id %}">Edit</a> |
+        <a href="{% url 'delete-patient' patient.id %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'create-patient' %}">Create new patient</a></p>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+<nav class="navbar navbar-dark navbar-expand-md sticky-top bg-primary">
+    <div class="container-fluid"><a class="navbar-brand text-center" href="" style="margin: 0px 0px;">MEDIHUB: PATIENT</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div
+            class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav  text-light ml-auto" >
+                {% if request.user.is_authenticated %}
+                <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'patient-dashboard' %}">Dashboard</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'patient-logout' %}">Logout</a></li>
+                {% else %}
+                <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'index' %}">Home</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'patient-login' %}">Login</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'patient-register' %}">Create Account</a></li>
+
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -21,5 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landingPageView, name='landing-page'),
     path('hospital/', include('hospital.urls')),
+    path('adminapp/', include('adminapp.urls')),
+    path('doctorapp/', include('doctorapp.urls')),
+    path('patientapp/', include('patientapp.urls')),
+    
     
 ]
