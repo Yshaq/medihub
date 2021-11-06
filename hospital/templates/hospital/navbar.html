@@ -1,7 +1,7 @@
 
 {% load static %}
 <nav class="navbar navbar-dark navbar-expand-md sticky-top bg-primary">
-    <div class="container-fluid"><a class="navbar-brand text-center" href="#" style="margin: 0px 0px;">MEDIHUB</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="container-fluid"><a class="navbar-brand text-center" href="{% url 'index' %}" style="margin: 0px 0px;">MEDIHUB</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div
             class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav text-light ml-auto">
@@ -9,7 +9,7 @@
                 
                 <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'login-page' %}">LOGIN</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'patient-registration' %}">CREATE ACCOUNT</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'login_admin' %}">ADMIN LOGIN</a></li>
+                <!-- <li class="nav-item" role="presentation"><a class="nav-link" href="">ADMIN LOGIN</a></li> -->
             </ul>
         </div>
     </div>

@@ -8,11 +8,13 @@ urlpatterns = [
     path('doctor/create', views.createDoctorView, name='create-doctor'),
     path('doctor/edit/<int:id>', views.editDoctorView, name='edit-doctor'),
     path('doctor/delete/<int:id>', views.deleteDoctorView, name='delete-doctor'),
-    path('login/', views.loginpage, name='login-page'),
-    path('register/', views.PatientRegisteration, name='patient-registration'),
-    path('admin_login/',views.Login_admin,name='login_admin'),
+
+    path('login/', views.loginView, name='login-page'),
+    path('register/', views.patientRegistration, name='patient-registration'),
+    #path('admin_login/',views.Login_admin,name='login_admin'),
     path('adminhome/',views.AdminHome,name='admindashboard'),
     path('adminlogout/',views.Logout_admin,name='adminlogout'),
+    path('logout/', views.logoutView, name='logout'),
 
     path('patients/', views.patientListView, name='patient-list'),
     path('patient/<int:id>', views.patientDetailView, name='patient-detail'),
@@ -26,6 +28,6 @@ urlpatterns = [
     path('appointment/edit/<int:id>', views.editAppointmentView, name='edit-appointment'),
     path('appointment/delete/<int:id>', views.deleteAppointmentView, name='delete-appointment'),
 
-    path('registration-doctor/', views.doctorRegistration, name='doctor-registration'),
+    path('register-doctor/', views.doctorRegistration, name='doctor-registration'),
     
 ]

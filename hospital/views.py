@@ -14,90 +14,89 @@ from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
 def landingPageView(request):
-	return render(request, 'home.html')
+	return redirect('index')
 
 def indexView(request):
 	return render(request, 'hospital/index.html')
-def loginpage(request):
-	error = ""
-	page = ""
-	if request.method == 'POST':
-		u = request.POST['username']
-		p = request.POST['password']
-		user = authenticate(request,username=u,password=p)
-		render(request,'hospital/patientdashboard.html')
-		try:
-			if user is not None:
-				login(request,user)
-				error = "no"
-				g = request.user.groups.all()[0].name
-				
-				if g == 'Patients':
-					page = "patient"
-					d = {'error': error,'page':page}
-					return render(request,'hospital/patientdashboard.html',d)
-			else:
-				error = "yes"
-		except Exception as e:
-			error = "yes"
-			print(e)
-			raise e
-	context = {'error': error}
-	print(error)
-	return render(request,'hospital/login.html',context)
+
+def loginView(request):
+    error = ""
+    page = ""
+
+    if request.method == 'POST':
+        u = request.POST['username']
+        p = request.POST['password']
+        user = authenticate(request,username=u,password=p)
+
+        if user is not None:
+            login(request,user)
+            error = "no"
+            
+            if user.groups.filter(name = 'Administrators').exists():
+                #redirect to admin dash
+                return redirect('admindashboard')
 
 
-def PatientRegisteration(request):
-	error = ""
-	user="none"
-	if request.method == 'POST':
-		first_name = request.POST['first_name']
-		last_name = request.POST['last_name']
-		email = request.POST['email']
-		password = request.POST['password']
-		repeatpassword = request.POST['repeatpassword']
-		gender = request.POST['gender']
-		phonenumber = request.POST['phonenumber']
-		address = request.POST['address']
-		birthdate = request.POST['dateofbirth']
-		
-		try:
-			if password == repeatpassword:
-				Patient.objects.create(first_name=first_name,last_name=last_name,email=email,password=password,gender=gender,phone=phonenumber,address=address,dob=birthdate)
-				user = User.objects.create_user(first_name=first_name,email=email,username=email)
-				pat_group = Group.objects.get(name='Patients')
-				pat_group.user_set.add(user)
-				#print(pat_group)
-				user.save()
-				#print(user)
-				error = "no"
-			else:
-				error = "yes"
-		except Exception as e:
-			error = "yes"
-			print("Error:",e)
-	context = {'error' : error}
-	#print(error)
-	return render(request,'hospital/patientregistration.html',context)
+            elif user.groups.filter(name = 'Doctors').exists():
+                #redirect to doctor dash
+                return redirect('index')
+                pass
 
-			
-def Login_admin(request):
-	error = ""
-	if request.method == 'POST':
-		u = request.POST['username']
-		p = request.POST['password']
-		user = authenticate(username=u,password=p)
-		try:
-			if user.is_staff:
-				login(request,user)
-				error = "no"
-			else:
-				error = "yes"
-		except:
-			error = "yes"
-	d = {'error' : error}
-	return render(request,'hospital/AdminLogin.html',d)
+            elif user.groups.filter(name = 'Doctors-waiting').exists():
+                #redirect to doctors waiting page
+                return redirect('index')
+                pass
 
+            elif user.groups.filter(name = 'Patients').exists():
+                #redirect to patient dash
+                return redirect('index')
+                pass
+
+            return redirect('index')
+
+        else:
+            error = "yes"
+            messages.error(request, 'Invalid Credentials')
+        
+    context = {'error': error}
+    print(error)
+    return render(request,'hospital/login.html',context)
+
+
+def patientRegistration(request):
+    error = ""
+    user="none"
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        password = request.POST['password']
+        repeatpassword = request.POST['repeatpassword']
+        gender = request.POST['gender']
+        phonenumber = request.POST['phonenumber']
+        address = request.POST['address']
+        birthdate = request.POST['dateofbirth']
+
+        if password == repeatpassword:
+            user = User.objects.create_user(first_name=first_name, last_name=last_name, email=email,username=email, password=password)
+
+            patient = Patient.objects.create(user=user, first_name=first_name,last_name=last_name,email=email, gender=gender,phone=phonenumber,address=address,dob=birthdate)
+
+            pat_group = Group.objects.get_or_create(name='Patients')[0]
+            pat_group.user_set.add(user)
+            #print(pat_group)
+            user.save()
+            messages.success(request, "Patient created successfully!")
+            #print(user)
+            error = "no"
+            return redirect('index')
+        else:
+            messages.error(request, "Passwords do not match")
+            error = "yes"
+                    
+    context = {'error' : error}
+    #print(error)
+    return render(request,'hospital/patientregistration.html',context)
 
 def doctorRegistration(request):
     error = ""
@@ -113,7 +112,7 @@ def doctorRegistration(request):
         repeatpassword = request.POST['repeatpassword']
         address = request.POST['address']
 
-        if password == repeatpassword:          
+        if password == repeatpassword:
             user = User.objects.create_user(username=email, first_name=first_name, last_name=last_name, email=email, password = password)
 
             doc_grp = Group.objects.get_or_create(name = 'Doctors-waiting')[0]
@@ -131,65 +130,24 @@ def doctorRegistration(request):
     return render(request, 'hospital/doctor_registration.html', context)
 
 
-#=================================================
-#           DOCTOR MODEL CRUD
-#=================================================
+			
+# def Login_admin(request):
+# 	error = ""
+# 	if request.method == 'POST':
+# 		u = request.POST['username']
+# 		p = request.POST['password']
+# 		user = authenticate(username=u,password=p)
+# 		try:
+# 			if user.is_staff:
+# 				login(request,user)
+# 				error = "no"
+# 			else:
+# 				error = "yes"
+# 		except:
+# 			error = "yes"
+# 	d = {'error' : error}
+# 	return render(request,'hospital/AdminLogin.html',d)
 
-def doctorListView(request):
-	doctorList = Doctor.objects.all()
-	context = {
-		'list_of_doctors': doctorList,
-	}
-	return render(request, 'hospital/doctor_list.html', context)
-
-def doctorDetailView(request, id):
-	doctor = get_object_or_404(Doctor, pk=id)
-	context = {
-		'doctor': doctor,
-	}
-	return render(request, 'hospital/doctor_detail.html', context)
-
-def createDoctorView(request):
-	form = DoctorForm()
-	if (request.method == 'POST'):
-		form = DoctorForm(request.POST)
-		if(form.is_valid()):
-			form.save()
-			return redirect('doctor-list')
-		else:
-			messages.error(request, 'invalid form')
-
-	context = {
-		'form': form,
-	}
-	return render(request, 'hospital/doctor_form.html', context)
-
-def editDoctorView(request, id):
-	doctor = get_object_or_404(Doctor, pk=id)
-	form = DoctorForm(instance=doctor)
-
-	if (request.method == 'POST'):
-		form = DoctorForm(request.POST, request.FILES, instance=doctor)
-		if form.is_valid():
-			form.save()
-			return redirect('doctor-list')
-
-	context = {
-		'form': form,
-	}
-
-	return render(request, 'hospital/doctor_form.html', context)
-
-def deleteDoctorView(request, id):
-	doctor = get_object_or_404(Doctor, pk=id)
-	if(request.method == 'POST'):
-		doctor.delete()
-		return redirect('doctor-list')
-
-	context = {
-		'doctor': doctor,
-	}
-	return render(request, 'hospital/delete_doctor.html', context)
 def AdminHome(request):
 	#after login user comes to this page.
 	if not request.user.is_staff:
@@ -201,7 +159,60 @@ def Logout_admin(request):
 		return redirect('login_admin')
 	logout(request)
 	return redirect('login_admin')
-    
+
+def logoutView(request):
+    logout(request)
+    messages.success(request, "Logged Out")
+    return redirect('index')
+
+#=================================================
+#           DOCTOR MODEL CRUD
+#=================================================
+
+def doctorListView(request):
+    doctorList = Doctor.objects.all()
+    context = {
+        'list_of_doctors': doctorList,
+    }
+    return render(request, 'hospital/doctor_list.html', context)
+
+def doctorDetailView(request, id):
+    doctor = get_object_or_404(Doctor, pk=id)
+    context = {
+        'doctor': doctor,
+    }
+    return render(request, 'hospital/doctor_detail.html', context)
+
+def createDoctorView(request):
+    form = DoctorForm()
+    if (request.method == 'POST'):
+        form = DoctorForm(request.POST)
+        if(form.is_valid()):
+            form.save()
+            return redirect('doctor-list')
+        else:
+            messages.error(request, 'invalid form')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'hospital/model_form.html', context)
+
+def editDoctorView(request, id):
+    doctor = get_object_or_404(Doctor, pk=id)
+    form = DoctorForm(instance=doctor)
+
+    if (request.method == 'POST'):
+        form = DoctorForm(request.POST, request.FILES, instance=doctor)
+        if form.is_valid():
+            form.save()
+            return redirect('doctor-list')
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'hospital/model_form.html', context)
 
 def deleteDoctorView(request, id):
     doctor = get_object_or_404(Doctor, pk=id)
