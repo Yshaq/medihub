@@ -64,7 +64,7 @@ def PatientRegisteration(request):
 		try:
 			if password == repeatpassword:
 				Patient.objects.create(first_name=first_name,last_name=last_name,email=email,password=password,gender=gender,phone=phonenumber,address=address,dob=birthdate)
-				user = User.objects.create_user(first_name=first_name,email=email,username=email)
+				user = User.objects.create_user(first_name=first_name,last_name=last_name,email=email,username=email)
 				pat_group = Group.objects.get(name='Patients')
 				pat_group.user_set.add(user)
 				#print(pat_group)
@@ -72,9 +72,9 @@ def PatientRegisteration(request):
 				#print(user)
 				error = "no"
 			else:
-				error = "yes"
+				error = "yes1"
 		except Exception as e:
-			error = "yes"
+			error = "yes2"
 			print("Error:",e)
 	context = {'error' : error}
 	#print(error)
