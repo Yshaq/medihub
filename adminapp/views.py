@@ -33,8 +33,9 @@ def loginView(request):
         user = authenticate(request,username=u,password=p)
 
         if user is not None:
-            check_admin(user)
-            messages.error(request, "You are not an Admin")
+            if not user.groups.filter(name = 'Administrators').exists():
+                messages.error(request, "You are not an Admin")
+                return redirect('index')
             login(request,user)
             error = "no"
             return redirect('admin-dashboard')
@@ -50,7 +51,7 @@ def loginView(request):
 def logoutView(request):
     logout(request)
     messages.success(request, "Logged Out")
-    return redirect('admin-dashboard')
+    return redirect('index')
 
 
 #=================================================

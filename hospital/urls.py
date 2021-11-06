@@ -28,6 +28,6 @@ urlpatterns = [
     # path('appointment/edit/<int:id>', views.editAppointmentView, name='edit-appointment'),
     # path('appointment/delete/<int:id>', views.deleteAppointmentView, name='delete-appointment'),
 
-    path('register-doctor/', views.doctorRegistration, name='doctor-registration'),
+    #path('register-doctor/', views.doctorRegistration, name='doctor-registration'),
     
 ]
