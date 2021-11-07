@@ -5,8 +5,7 @@ from django.contrib.auth import authenticate,logout,login
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 
-
-from hospital.forms import DoctorForm, PatientForm, AppointmentForm
+from .forms import ManageAppointmentForm
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import login, authenticate, logout
@@ -75,3 +74,31 @@ def logoutView(request):
     logout(request)
     messages.success(request, "Logged Out")
     return redirect('index')
+
+def myAppointmentsView(request):
+    doctor = request.user.doctor
+    upcoming_appointments = doctor.appointment_set.filter(confirmed=True).filter(completed=False)
+    completed_appointments = doctor.appointment_set.filter(completed=True)
+
+    context = {
+        'doctor': doctor,
+        'upcoming_appointments': upcoming_appointments,
+        'completed_appointments': completed_appointments,
+    }
+    return render(request, 'doctorapp/my_appointments.html', context)
+
+def manageAppointmentView(request, id):
+    appointment = get_object_or_404(Appointment, pk=id)
+    form = ManageAppointmentForm(instance=appointment)
+
+    if(request.method == 'POST'):
+        form = ManageAppointmentForm(request.POST, instance=appointment)
+        if form.is_valid():
+            form.save()
+            return redirect('doctor-appointments')
+
+    context = {
+        'appointment': appointment,
+        'form': form
+    }
+    return render(request, 'doctorapp/manage_appointment.html', context)

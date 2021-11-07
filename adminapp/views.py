@@ -69,7 +69,7 @@ def manageAppointment(request, id):
     form = ManageAppointmentForm(instance=appointment)
 
     if(request.method == 'POST'):
-        form = ManageAppointmentForm(request.POST, request.FILES, instance=appointment)
+        form = ManageAppointmentForm(request.POST, instance=appointment)
         if form.is_valid():
             form.save()
             return redirect('manage-appointments-list')
