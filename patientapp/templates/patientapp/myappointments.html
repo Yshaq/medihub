@@ -10,7 +10,7 @@
 <p><h2>Completed Appoinments:</h2>
     {% for appo in appointments%}
         {% if appo.completed == True %}
-        {{appo}} {{appo.}}
+        {{appo}} <a href="{% url 'my_appointment_detail' appo.id %}">View</a>
         {% endif %}
     {% endfor %}
     </p>

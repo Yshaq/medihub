@@ -7,8 +7,8 @@
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'patient-dashboard' %}">Dashboard</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'profile' %}">Profile</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'patient_views_doctor_list' %}">Available Doctors</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'patient-logout'  %}">Logout</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'my_appointments'  %}">My Appointments</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'patient-logout'  %}">Logout</a></li>
                 {% else %}
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'index' %}">Home</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'patient-login' %}">Login</a></li>
