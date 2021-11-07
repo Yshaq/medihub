@@ -11,6 +11,8 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 
+from .forms import ManageAppointmentForm
+
 # Create your views here.
 #===============UTILITY==================
 def check_admin(user):
@@ -53,6 +55,33 @@ def logoutView(request):
     messages.success(request, "Logged Out")
     return redirect('index')
 
+def manageAppointmentsList(request):
+    requested_appointments = Appointment.objects.filter(completed=False).filter(confirmed=False)
+    confirmed_appointments = Appointment.objects.filter(completed=False).filter(confirmed=True)
+    context = {
+        'requested_appointments': requested_appointments,
+        'confirmed_appointments': confirmed_appointments,
+    }
+    return render(request, 'adminapp/manage_appointments_list.html', context)
+
+def manageAppointment(request, id):
+    appointment = get_object_or_404(Appointment, pk=id)
+    form = ManageAppointmentForm(instance=appointment)
+
+    if(request.method == 'POST'):
+        form = ManageAppointmentForm(request.POST, request.FILES, instance=appointment)
+        if form.is_valid():
+            form.save()
+            return redirect('manage-appointments-list')
+
+    context = {
+        'appointment': appointment,
+        'form': form
+    }
+    return render(request, 'adminapp/manage_appointment.html', context)
+
+def crudIndex(request):
+    return render(request, 'adminapp/crud_index.html')
 
 #=================================================
 #           DOCTOR MODEL CRUD
