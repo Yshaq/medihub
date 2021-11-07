@@ -1,0 +1,29 @@
+{% extends 'adminapp/base.html' %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-sm-12">
+
+        <h1>Appointments</h1>
+        <hr>
+        <h3>Requested Appointments</h3>
+        <ul>
+            {% for appointment in requested_appointments %}
+            <li>{{appointment.patient}} requested for Doctor {{appointment.doctor}} | <a href="{% url 'manage-appointment' appointment.id %}">Manage</a></li>
+            {% endfor %}
+        </ul>
+
+        <hr>
+        <h3>Confirmed Appointments</h3>
+        <ul>
+            {% for appointment in confirmed_appointments %}
+            <li>{{appointment.patient.}} confirmed with Doctor {{appointment.doctor}} | <a href="{% url 'manage-appointment' appointment.id %}">Manage</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}

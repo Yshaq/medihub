@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from .models import Doctor, Patient, Appointment
 from django import forms
+from django.forms import widgets
 
 class DoctorForm(ModelForm):
     class Meta:
@@ -16,3 +17,7 @@ class AppointmentForm(ModelForm):
     class Meta:
         model = Appointment
         fields = '__all__'
+        widgets = {
+            'date': widgets.DateInput(attrs={'type': 'date'}),
+            'time': widgets.TimeInput(attrs={'type': 'time'}),
+        }

@@ -1,5 +1,5 @@
-{% extends 'adminapp/base.html' %}
-{% block content %}
+{% extends 'adminapp/crud_index.html' %}
+{% block main %}
 <form action="" method="POST">
     {% csrf_token %}
     {{form.as_p}}
