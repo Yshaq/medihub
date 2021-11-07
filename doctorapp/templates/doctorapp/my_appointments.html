@@ -1,0 +1,19 @@
+{% extends 'doctorapp/base.html' %}
+{% block content %}
+
+<h1>Upcoming Appointments</h1>
+<ul>
+    {% for appointment in upcoming_appointments %}
+    <li>{{appointment.patient}} on {{appointment.date}} at {{appointment.time}} - <a href="{% url 'doctor-manage-appointment' appointment.id %}">Manage</a></li>
+    {% endfor %}
+</ul>
+<hr>
+
+<h3>Completed Appointments:</h3>
+<ul>
+    {% for appointment in completed_appointments %}
+    <li>{{appointment.patient}} on {{appointment.date}} at {{appointment.time}} - <a href="{% url 'doctor-manage-appointment' appointment.id %}">Manage</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

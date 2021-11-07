@@ -5,6 +5,7 @@
             <ul class="nav navbar-nav  text-light ml-auto" >
                 {% if request.user.is_authenticated %}
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'doctor-dashboard' %}">Dashboard</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'doctor-appointments' %}">Appointments</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'doctor-logout' %}">Logout</a></li>
                 {% else %}
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'index' %}">Home</a></li>
