@@ -9,6 +9,7 @@ from hospital.forms import DoctorForm, PatientForm, AppointmentForm
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def loginView(request):
@@ -78,3 +79,54 @@ def patientRegistration(request):
     context = {'error' : error}
     #print(error)
     return render(request,'patientapp/patientregistration.html',context)
+
+def profile(request):
+    if not request.user.is_active:
+        return redirect('login_page')
+    patient = get_object_or_404(Patient, email=request.user)
+    context = {
+        'patient': patient,
+    }
+    return render(request, 'patientapp/profile.html', context)
+
+@login_required(login_url='patient-login')
+def doctorListView(request):
+    doctorList = Doctor.objects.all()
+    context = {
+        'list_of_doctors': doctorList,
+    }
+    return render(request, 'patientapp/doctor_list.html', context)
+
+def bookappointment(request,id):
+    patient = get_object_or_404(Patient, email=request.user)
+    doctor=get_object_or_404(Doctor,pk=id)
+    error=""
+    if request.method == 'POST':
+        # try:
+            date=request.POST["date"]
+            appointment = Appointment.objects.create( doctor=doctor,patient=patient,date=date)
+            messages.success(request,"Appointment requested")
+            return redirect('patient_views_doctor_list')
+        # except:
+        #     error="yes"
+            
+    context = {
+        
+        'doctor':doctor,
+        'patient':patient,
+        
+    }
+    return render(request, 'patientapp/appointments.html', context)
+def myappointments(request):
+    patient = get_object_or_404(Patient, email=request.user)
+    appointments=Appointment.objects.all().filter(patient=patient)
+    context={
+        'appointments':appointments
+    }
+    return render(request,'patientapp/myappointments.html',context)
+def myappointmentdetails(request,id):
+    appointment =get_object_or_404(Appointment, pk=id)
+    context={
+        'appointment':appointment
+    }
+    return render(request,'patientapp/myappointmentdetails.html',context)
