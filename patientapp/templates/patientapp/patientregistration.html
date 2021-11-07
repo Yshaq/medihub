@@ -91,15 +91,22 @@
 <!-- {% ifequal error "no" %}
 <script type="text/javascript">
     alert('Patient saved Sucessfully..........')
-    window.location = ("{% url 'Login-page' %}")
+    window.location = ("{% url 'login-page' %}")
 </script>
 {% endifequal%}
 
-{% ifequal error "yes" %}
+{% ifequal error "yes1" %}
 <script type="text/javascript">
     
     alert('Passwords do not match')
 </script> -->
+
+{% endifequal%}
+{% ifequal error "yes2" %}
+<script type="text/javascript">
+    
+    alert('Pas2 do not match')
+</script>
 
 {% endifequal%}
 {% endblock %}

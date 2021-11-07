@@ -18,117 +18,67 @@ def landingPageView(request):
 
 def indexView(request):
 	return render(request, 'hospital/index.html')
-
-# def loginView(request):
-#     error = ""
-#     page = ""
-
-#     if request.method == 'POST':
-#         u = request.POST['username']
-#         p = request.POST['password']
-#         user = authenticate(request,username=u,password=p)
-
-#         if user is not None:
-#             login(request,user)
-#             error = "no"
-            
-#             if user.groups.filter(name = 'Administrators').exists():
-#                 #redirect to admin dash
-#                 return redirect('admindashboard')
-
-
-#             elif user.groups.filter(name = 'Doctors').exists():
-#                 #redirect to doctor dash
-#                 return redirect('index')
-#                 pass
-
-#             elif user.groups.filter(name = 'Doctors-waiting').exists():
-#                 #redirect to doctors waiting page
-#                 return redirect('index')
-#                 pass
-
-#             elif user.groups.filter(name = 'Patients').exists():
-#                 #redirect to patient dash
-#                 return redirect('index')
-#                 pass
-
-#             return redirect('index')
-
-#         else:
-#             error = "yes"
-#             messages.error(request, 'Invalid Credentials')
-        
-#     context = {'error': error}
-#     print(error)
-#     return render(request,'hospital/login.html',context)
+def loginpage(request):
+	error = ""
+	page = ""
+	if request.method == 'POST':
+		u = request.POST['username']
+		p = request.POST['password']
+		user = authenticate(request,username=u,password=p)
+		render(request,'hospital/patientdashboard.html')
+		try:
+			if user is not None:
+				login(request,user)
+				error = "no"
+				g = request.user.groups.all()[0].name
+				
+				if g == 'Patients':
+					page = "patient"
+					d = {'error': error,'page':page}
+					return render(request,'hospital/patientdashboard.html',d)
+			else:
+				error = "yes"
+		except Exception as e:
+			error = "yes"
+			print(e)
+			raise e
+	context = {'error': error}
+	print(error)
+	return render(request,'hospital/login.html',context)
 
 
-# def patientRegistration(request):
-#     error = ""
-#     user="none"
-#     if request.method == 'POST':
-#         first_name = request.POST['first_name']
-#         last_name = request.POST['last_name']
-#         email = request.POST['email']
-#         password = request.POST['password']
-#         repeatpassword = request.POST['repeatpassword']
-#         gender = request.POST['gender']
-#         phonenumber = request.POST['phonenumber']
-#         address = request.POST['address']
-#         birthdate = request.POST['dateofbirth']
-
-#         if password == repeatpassword:
-#             user = User.objects.create_user(first_name=first_name, last_name=last_name, email=email,username=email, password=password)
-
-#             patient = Patient.objects.create(user=user, first_name=first_name,last_name=last_name,email=email, gender=gender,phone=phonenumber,address=address,dob=birthdate)
-
-#             pat_group = Group.objects.get_or_create(name='Patients')[0]
-#             pat_group.user_set.add(user)
-#             #print(pat_group)
-#             user.save()
-#             messages.success(request, "Patient created successfully!")
-#             #print(user)
-#             error = "no"
-#             return redirect('index')
-#         else:
-#             messages.error(request, "Passwords do not match")
-#             error = "yes"
-                    
-#     context = {'error' : error}
-#     #print(error)
-#     return render(request,'hospital/patientregistration.html',context)
-
-# def doctorRegistration(request):
-#     error = ""
-#     if request.method == 'POST':
-#         first_name = request.POST['first_name']
-#         last_name = request.POST['last_name']
-#         gender = request.POST['gender']
-#         birthdate = request.POST['dateofbirth']
-#         department = request.POST['department']
-#         phonenumber = request.POST['phonenumber']
-#         email = request.POST['email']
-#         password = request.POST['password']
-#         repeatpassword = request.POST['repeatpassword']
-#         address = request.POST['address']
-
-#         if password == repeatpassword:
-#             user = User.objects.create_user(username=email, first_name=first_name, last_name=last_name, email=email, password = password)
-
-#             doc_grp = Group.objects.get_or_create(name = 'Doctors-waiting')[0]
-#             doc_grp.user_set.add(user)
-#             user.save()
-
-#             doctor = Doctor.objects.create(user=user, first_name=first_name, last_name=last_name, gender=gender, dob=birthdate, department=department, phone=phonenumber, address=address, email=email)
-#             messages.success(request, "Doctor account created, waiting for approval.")
-#             return redirect('index')
-
-#         else:
-#             messages.error(request, "Passwords do not match")
-
-#     context = {'error' : error}
-#     return render(request, 'hospital/doctor_registration.html', context)
-
+def PatientRegisteration(request):
+	error = ""
+	user="none"
+	if request.method == 'POST':
+		first_name = request.POST['first_name']
+		last_name = request.POST['last_name']
+		email = request.POST['email']
+		password = request.POST['password']
+		repeatpassword = request.POST['repeatpassword']
+		gender = request.POST['gender']
+		phonenumber = request.POST['phonenumber']
+		address = request.POST['address']
+		birthdate = request.POST['dateofbirth']
+		
+		try:
+			if password == repeatpassword:
+				Patient.objects.create(first_name=first_name,last_name=last_name,email=email,password=password,gender=gender,phone=phonenumber,address=address,dob=birthdate)
+				user = User.objects.create_user(first_name=first_name,last_name=last_name,email=email,username=email)
+				pat_group = Group.objects.get(name='Patients')
+				pat_group.user_set.add(user)
+				#print(pat_group)
+				user.save()
+				#print(user)
+				error = "no"
+			else:
+				error = "yes1"
+		except Exception as e:
+			error = "yes2"
+			print("Error:",e)
+	context = {'error' : error}
+	#print(error)
+	return render(request,'hospital/patientregistration.html',context)
 
 			
 # def Login_admin(request):

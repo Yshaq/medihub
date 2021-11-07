@@ -1,0 +1,32 @@
+{% extends 'patientapp/base.html' %}
+
+{% block content %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <p>Doctor : {{doctor.first_name}} {{doctor.last_name}}</p>
+    <p>Department : {{doctor.department}}</p>
+    <p>Patient: {{patient.first_name}} {{patient.last_name}}</p>
+    {% csrf_token %}
+            
+            <div class="form-row form-group">
+                <div class="col-sm-4 label-column">
+                    <label class="col-form-label" for="date-input-field">Date:</label>
+                </div>
+                <div class="col-sm-6 input-column">
+                    <input class="form-control" type="date" name="date" required="">
+                </div>
+            </div>
+            
+            <button class="btn btn-primary submit-button" type="submit">Request Appointment</button>
+    
+
+</form>
+{% ifequal error "yes" %}
+<script type="text/javascript">
+    
+    alert('POST method error')
+</script>
+
+{% endifequal%}
+{% endblock %}

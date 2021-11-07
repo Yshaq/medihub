@@ -1,0 +1,17 @@
+{% extends 'patientapp/base.html' %}
+{% block content %}
+<p><h2>Upcoming Appoinments:</h2>
+{% for appo in appointments%}
+    {% if appo.completed == False %}
+    {{appo}} <a href="{% url 'my_appointment_detail' appo.id %}">View</a> 
+    {% endif %}
+{% endfor %}
+</p>
+<p><h2>Completed Appoinments:</h2>
+    {% for appo in appointments%}
+        {% if appo.completed == True %}
+        {{appo}} <a href="{% url 'my_appointment_detail' appo.id %}">View</a>
+        {% endif %}
+    {% endfor %}
+    </p>
+{% endblock %}

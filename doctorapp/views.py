@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User,Group
+from adminapp.views import patientDetailView
 from hospital.models import *
 from django.contrib.auth import authenticate,logout,login
 from django.utils import timezone
