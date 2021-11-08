@@ -83,6 +83,39 @@ def manageAppointment(request, id):
 def crudIndex(request):
     return render(request, 'adminapp/crud_index.html')
 
+def billListView(request):
+    unpaid_bills = Bill.objects.filter(paid=False)
+    paid_bills = Bill.objects.filter(paid=True)
+    context = {
+        'unpaid_bills': unpaid_bills,
+        'paid_bills': paid_bills,
+    }
+    return render(request, 'adminapp/bill_list.html', context)
+
+def generateBillView(request):
+    bill_items = BillItem.objects.all()
+
+    if request.method == 'POST':
+        patient_number = request.POST['patno']
+        items_list = request.POST.getlist('items')
+        patient = get_object_or_404(Patient, pk=patient_number)
+        bill = Bill.objects.create(patient=patient)
+
+        total = 0
+        for item_no in items_list:
+            item = get_object_or_404(BillItem, pk=item_no)
+            total = total + item.price
+            bill.items.add(item)
+
+        bill.total = total
+        bill.save()
+        return redirect('admin-bills')
+
+    context = {
+        'bill_items': bill_items,
+    }
+    return render(request, 'adminapp/generate_bill.html', context)
+
 #=================================================
 #           DOCTOR MODEL CRUD
 #=================================================

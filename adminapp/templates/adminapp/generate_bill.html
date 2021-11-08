@@ -1,0 +1,23 @@
+{% extends 'adminapp/base.html' %}
+{% block content %}
+
+<h3>Generate Bill</h3>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="patientNumberInput" class="form-label">Patient Id:</label>
+        <input type="number" class="form-control" id="patientNumberInput" placeholder="12345" name="patno" required>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Select Items</label>
+        <select class="form-select" name="items" multiple aria-label="multiple select example" required>
+            {% for item in bill_items %}
+            <option value="{{item.id}}">{{item.item}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Create</button>
+</form>
+
+{% endblock %}

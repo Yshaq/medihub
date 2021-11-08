@@ -11,6 +11,9 @@ urlpatterns = [
     path('manage-appointments', views.manageAppointmentsList, name='manage-appointments-list'),
     path('manage-appointments/<int:id>', views.manageAppointment, name='manage-appointment'),
 
+    path('bills/', views.billListView, name='admin-bills'),
+    path('bills/generate', views.generateBillView, name='generate-bill'),
+
     path('crud/', views.crudIndex, name='crud-index'),
 
     path('crud/doctors/', views.doctorListView, name='doctor-list'),

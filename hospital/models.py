@@ -59,8 +59,16 @@ class Appointment(models.Model):
 
 class Bill(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.SET_NULL, null=True, blank=True)
-    room_fee = models.IntegerField(default=0)
-    medicine_fee = models.IntegerField(default=0)
-    service_fee = models.IntegerField(default=0)
-    other_fee = models.IntegerField(default=0)
+    total = models.IntegerField(default=0)
     paid = models.BooleanField(default=False)
+    items = models.ManyToManyField('BillItem')
+
+    def __str__(self):
+        return f"{self.patient} Rs.{self.total}"
+
+class BillItem(models.Model):
+    item = models.CharField(max_length=50, null=True, blank=True)
+    price = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.item}'
