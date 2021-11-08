@@ -62,6 +62,7 @@ class Bill(models.Model):
     total = models.IntegerField(default=0)
     paid = models.BooleanField(default=False)
     items = models.ManyToManyField('BillItem')
+    date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.patient} Rs.{self.total}"
@@ -71,4 +72,4 @@ class BillItem(models.Model):
     price = models.IntegerField(default=0)
 
     def __str__(self):
-        return f'{self.item}'
+        return f'{self.item} Rs.{self.price}'

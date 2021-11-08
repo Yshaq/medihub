@@ -6,14 +6,14 @@
 <h3>Unpaid Bills</h3>
 <ul>
 {% for bill in unpaid_bills %}
-    <li>{{bill.id}} - {{bill.patient}} : <a href="">PDF</a></li>
+    <li>{{bill.id}} - {{bill.patient}} : <a href="{% url 'admin-bill' bill.id %}">PDF</a> || <a href="{% url 'bill-set-paid' bill.id %}">PAID</a></li>
 {% endfor %}
 </ul>
 
 <h3>Paid Bills</h3>
 <ul>
 {% for bill in paid_bills %}
-    <li>{{bill.id}} - {{bill.patient}} : <a href="">PDF</a></li>
+    <li>{{bill.id}} - {{bill.patient}} : <a href="{% url 'admin-bill' bill.id %}">PDF</a></li>
 {% endfor %}
 </ul>
 

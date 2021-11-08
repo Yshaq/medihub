@@ -13,6 +13,13 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .forms import ManageAppointmentForm
 
+import os
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.contrib.staticfiles import finders
+
 # Create your views here.
 #===============UTILITY==================
 def check_admin(user):
@@ -115,6 +122,68 @@ def generateBillView(request):
         'bill_items': bill_items,
     }
     return render(request, 'adminapp/generate_bill.html', context)
+
+def billView(request, id):
+    return render(request, 'adminapp/billpdf.html')
+
+def link_callback(uri, rel):
+    """
+    Convert HTML URIs to absolute system paths so xhtml2pdf can access those
+    resources
+    """
+    result = finders.find(uri)
+    if result:
+            if not isinstance(result, (list, tuple)):
+                    result = [result]
+            result = list(os.path.realpath(path) for path in result)
+            path=result[0]
+    else:
+            sUrl = settings.STATIC_URL        # Typically /static/
+            sRoot = settings.STATICFILES_DIRS      # Typically /home/userX/project_static/
+            mUrl = settings.MEDIA_URL         # Typically /media/
+            mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
+
+            if uri.startswith(mUrl):
+                    path = os.path.join(mRoot, uri.replace(mUrl, ""))
+            elif uri.startswith(sUrl):
+                    path = os.path.join(sRoot, uri.replace(sUrl, ""))
+            else:
+                    return uri
+
+    # make sure that file exists
+    if not os.path.isfile(path):
+            raise Exception(
+                    'media URI must start with %s or %s' % (sUrl, mUrl)
+            )
+    return path
+
+def render_pdf_view(request, id):
+    template_path = 'adminapp/billpdf.html'
+    bill = Bill.objects.get(pk=id)
+    context = {
+        'bill': bill,
+    }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    response['Content-Disposition'] = 'filename="report.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response, link_callback=link_callback)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+def billSetPaid(request, id):
+    bill = get_object_or_404(Bill, pk = id)
+    bill.paid = True
+    bill.save()
+    return redirect('admin-bills')
 
 #=================================================
 #           DOCTOR MODEL CRUD
