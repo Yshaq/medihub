@@ -64,19 +64,3 @@ class Bill(models.Model):
     service_fee = models.IntegerField(default=0)
     other_fee = models.IntegerField(default=0)
     paid = models.BooleanField(default=False)
-
-class Room(models.Model):
-    room_number = models.CharField(max_length=10)
-    available = models.BooleanField(default=True)
-    price_per_day = models.IntegerField(default=500)
-
-    def __str__(self):
-        return f"Room Number {self.room_number}"
-
-class RoomInstance(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True, blank=True)
-    patient = models.ForeignKey(Patient, on_delete=models.SET_NULL, null=True, blank=True)
-    admit_date = models.DateField(null=True, blank=True)
-    discharge_date = models.DateField(null=True, blank=True)
-    discharged = models.BooleanField(default=False)
-    total_price = models.IntegerField(default=0)
