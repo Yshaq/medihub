@@ -13,7 +13,7 @@ urlpatterns = [
 
     path('bills/', views.billListView, name='admin-bills'),
     path('bills/generate', views.generateBillView, name='generate-bill'),
-    path('bills/<int:id>', views.render_pdf_view, name='admin-bill'),
+    path('bills/<int:id>', views.billPdfView, name='admin-bill'),
     path('bills/<int:id>/setpay', views.billSetPaid, name='bill-set-paid'),
 
     # path('pdf/', views.render_pdf_view, name='pdff'),

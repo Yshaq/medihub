@@ -61,15 +61,26 @@ class Bill(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.SET_NULL, null=True, blank=True)
     total = models.IntegerField(default=0)
     paid = models.BooleanField(default=False)
-    items = models.ManyToManyField('BillItem')
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.patient} Rs.{self.total}"
 
-class BillItem(models.Model):
-    item = models.CharField(max_length=50, null=True, blank=True)
+class Item(models.Model):
+    name = models.CharField(max_length=50, null=True, blank=True)
     price = models.IntegerField(default=0)
 
     def __str__(self):
-        return f'{self.item} Rs.{self.price}'
+        return f'{self.name} Rs.{self.price}'
+
+class BillItemMap(models.Model):
+    bill = models.ForeignKey(Bill, on_delete=models.CASCADE, null=True, blank=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, blank=True)
+    qty = models.IntegerField(default=1)
+    
+    def __str__(self):
+        return f'{self.bill.id} - {self.item.name}'
+
+    @property
+    def subtotal(self):
+        return (self.item.price * self.qty)

@@ -6,4 +6,5 @@ admin.site.register(Patient)
 admin.site.register(Appointment)
 
 admin.site.register(Bill)
-admin.site.register(BillItem)
+admin.site.register(Item)
+admin.site.register(BillItemMap)
