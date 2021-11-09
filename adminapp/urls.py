@@ -16,8 +16,6 @@ urlpatterns = [
     path('bills/<int:id>', views.billPdfView, name='admin-bill'),
     path('bills/<int:id>/setpay', views.billSetPaid, name='bill-set-paid'),
 
-    # path('pdf/', views.render_pdf_view, name='pdff'),
-
     path('crud/', views.crudIndex, name='crud-index'),
 
     path('crud/doctors/', views.doctorListView, name='doctor-list'),
