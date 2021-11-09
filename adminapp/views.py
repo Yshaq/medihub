@@ -83,6 +83,58 @@ def manageAppointment(request, id):
 def crudIndex(request):
     return render(request, 'adminapp/crud_index.html')
 
+def billListView(request):
+    unpaid_bills = Bill.objects.filter(paid=False)
+    paid_bills = Bill.objects.filter(paid=True)
+    context = {
+        'unpaid_bills': unpaid_bills,
+        'paid_bills': paid_bills,
+    }
+    return render(request, 'adminapp/bill_list.html', context)
+
+def generateBillView(request):
+    bill_items = Item.objects.all()
+
+    if request.method == 'POST':
+        patient_number = request.POST['patno']
+        patient = get_object_or_404(Patient, pk=patient_number)
+        bill = Bill.objects.create(patient=patient)
+
+        total = 0
+        fieldno = 1
+        while(f'item{fieldno}' in request.POST):
+            item_no = request.POST[f'item{fieldno}']
+            qty = int(request.POST[f'qty{fieldno}'])
+            item = get_object_or_404(Item, pk=item_no)
+            BillItemMap.objects.create(bill=bill, item=item, qty=qty)
+            total = total + item.price * qty
+            fieldno = fieldno + 1
+
+        bill.total = total
+        bill.save()
+        return redirect('admin-bills')
+
+    context = {
+        'bill_items': bill_items,
+    }
+    return render(request, 'adminapp/generate_bill.html', context)
+
+def billPdfView(request, id):
+    bill = Bill.objects.get(pk=id)
+    itemmap = bill.billitemmap_set.all()
+    context = {
+        'bill': bill,
+        'itemmap': itemmap,
+    }
+    return render(request, 'adminapp/billpdf.html', context)
+
+
+def billSetPaid(request, id):
+    bill = get_object_or_404(Bill, pk = id)
+    bill.paid = True
+    bill.save()
+    return redirect('admin-bills')
+
 #=================================================
 #           DOCTOR MODEL CRUD
 #=================================================

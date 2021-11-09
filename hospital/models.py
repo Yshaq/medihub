@@ -59,8 +59,28 @@ class Appointment(models.Model):
 
 class Bill(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.SET_NULL, null=True, blank=True)
-    room_fee = models.IntegerField(default=0)
-    medicine_fee = models.IntegerField(default=0)
-    service_fee = models.IntegerField(default=0)
-    other_fee = models.IntegerField(default=0)
+    total = models.IntegerField(default=0)
     paid = models.BooleanField(default=False)
+    date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.patient} Rs.{self.total}"
+
+class Item(models.Model):
+    name = models.CharField(max_length=50, null=True, blank=True)
+    price = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.name} Rs.{self.price}'
+
+class BillItemMap(models.Model):
+    bill = models.ForeignKey(Bill, on_delete=models.CASCADE, null=True, blank=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, blank=True)
+    qty = models.IntegerField(default=1)
+    
+    def __str__(self):
+        return f'{self.bill.id} - {self.item.name}'
+
+    @property
+    def subtotal(self):
+        return (self.item.price * self.qty)

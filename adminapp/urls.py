@@ -11,6 +11,11 @@ urlpatterns = [
     path('manage-appointments', views.manageAppointmentsList, name='manage-appointments-list'),
     path('manage-appointments/<int:id>', views.manageAppointment, name='manage-appointment'),
 
+    path('bills/', views.billListView, name='admin-bills'),
+    path('bills/generate', views.generateBillView, name='generate-bill'),
+    path('bills/<int:id>', views.billPdfView, name='admin-bill'),
+    path('bills/<int:id>/setpay', views.billSetPaid, name='bill-set-paid'),
+
     path('crud/', views.crudIndex, name='crud-index'),
 
     path('crud/doctors/', views.doctorListView, name='doctor-list'),

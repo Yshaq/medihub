@@ -1,0 +1,20 @@
+{% extends 'adminapp/base.html' %}
+{% block content %}
+
+<p><a href="{% url 'generate-bill' %}">Generate Bill</a></p>
+<hr>
+<h3>Unpaid Bills</h3>
+<ul>
+{% for bill in unpaid_bills %}
+    <li>{{bill.id}} - {{bill.patient}} : <a href="{% url 'admin-bill' bill.id %}">PDF</a> || <a href="{% url 'bill-set-paid' bill.id %}">PAID</a></li>
+{% endfor %}
+</ul>
+
+<h3>Paid Bills</h3>
+<ul>
+{% for bill in paid_bills %}
+    <li>{{bill.id}} - {{bill.patient}} : <a href="{% url 'admin-bill' bill.id %}">PDF</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}
