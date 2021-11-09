@@ -130,3 +130,23 @@ def myappointmentdetails(request,id):
         'appointment':appointment
     }
     return render(request,'patientapp/myappointmentdetails.html',context)
+
+def billPdfView(request, id):
+    bill = Bill.objects.get(pk=id)
+    itemmap = bill.billitemmap_set.all()
+    context = {
+        'bill': bill,
+        'itemmap': itemmap,
+    }
+    return render(request, 'patientapp/billpdf.html', context)
+
+def billListView(request):
+    patient = get_object_or_404(Patient, user=request.user)
+    my_bills = patient.bill_set.all()
+    unpaid_bills = my_bills.filter(paid=False)
+    paid_bills = my_bills.filter(paid=True)
+    context = {
+        'unpaid_bills': unpaid_bills,
+        'paid_bills': paid_bills,
+    }
+    return render(request, 'patientapp/bill_list.html', context)

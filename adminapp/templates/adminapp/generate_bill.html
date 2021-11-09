@@ -14,17 +14,19 @@
         <h4>Items</h4>
         <div id="billItems">
         <div class="billItem">
-            <div class="mb-3">
-                <label class="form-label">Select Item 1</label>
-                <select class="form-select" name="item1" aria-label="Default select example" required>
-                    {% for item in bill_items %}
-                    <option value="{{item.id}}">{{item.name}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Qty:</label>
-                <input type="number" class="form-control" name="qty1" value=1 required>
+            <div class="row">
+                <div class="mb-3 col-sm-6">
+                    <label class="form-label">Select Item 1</label>
+                    <select class="form-select" name="item1" aria-label="Default select example" required>
+                        {% for item in bill_items %}
+                        <option value="{{item.id}}">{{item.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3 col-sm-6">
+                    <label class="form-label">Qty:</label>
+                    <input type="number" class="form-control" name="qty1" value=1 required>
+                </div>
             </div>
         </div>
         </div>
@@ -55,7 +57,8 @@
         var newitemdiv = document.createElement('div')
         newitemdiv.setAttribute('class', 'billItem');
         newitemdiv.innerHTML = `
-        <div class="mb-3">
+        <div class="row">
+        <div class="mb-3 col-sm-6">
             <label class="form-label">Select Item ${fieldnos}</label>
             <select class="form-select" name="item${fieldnos}" aria-label="Default select example" required>
                 {% for item in bill_items %}
@@ -63,9 +66,10 @@
                 {% endfor %}
             </select>
         </div>
-        <div class="mb-3">
+        <div class="mb-3 col-sm-6">
             <label class="form-label">Qty:</label>
             <input type="number" class="form-control" name="qty${fieldnos}" value=1 required>
+        </div>
         </div>
         `;
         billitemsdiv.appendChild(newitemdiv);
