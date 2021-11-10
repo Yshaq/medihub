@@ -33,6 +33,9 @@ def dashboardView(request):
     return render(request,'adminapp/dashboard.html',context)
 
 def loginView(request):
+    if request.user.is_authenticated:
+        logout(request)
+
     error = ""
     page = ""
 

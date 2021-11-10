@@ -1,24 +1,6 @@
 {% extends 'adminapp/base.html' %}
 {% block content %}
 
-<div class="d-flex" id="wrapper">
-<!-- Sidebar -->
-<div class="bg-white" id="sidebar-wrapper">
-    <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
-            class="fas fa-hospital me-2"></i>Medihub</div>
-    <div class="list-group list-group-flush my-3">
-        <a href="{% url 'admin-dashboard' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i
-                class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-        <a href="{% url 'crud-index' %}" class="list-group-item list-group-item-action bg-transparent second-text " id="dash"><i
-                class="fas fa-notes-medical me-2"></i>CRUD</a>     
-        <a href="{% url 'manage-appointments-list' %}" class="list-group-item list-group-item-action bg-transparent second-text active "><i
-                class="fas fa-clock me-2"></i>Appointments</a>
-        <a href="{% url 'admin-logout' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                class="fas fa-power-off me-2"></i>Logout</a>
-       
-    </div>
-</div>
-
 <!-- /#sidebar-wrapper -->
 <div class="container-fluid" id="page-content-wrapper">
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
@@ -67,7 +49,7 @@
         </div>
     </div>
 </div>
-</div>
+
 
    
 
