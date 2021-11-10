@@ -19,22 +19,64 @@
     
 </nav>
 
-<div class="container-fluid">
-    <hr>
-    <h3>Unpaid Bills</h3>
-    <ul>
-    {% for bill in unpaid_bills %}
-        <li>{{bill.id}} - {{bill.patient}} : <a href="{% url 'patient-bill' bill.id %}">View</a></li>
-    {% endfor %}
-    </ul>
-    
-    <h3>Paid Bills</h3>
-    <ul>
-    {% for bill in paid_bills %}
-        <li>{{bill.id}} - {{bill.patient}} : <a href="{% url 'patient-bill' bill.id %}">View</a></li>
-    {% endfor %}
-    </ul> 
-</div>
+<div class="container-fluid p-4">
+    <div class="p-3 bg-white shadow rounded">
+        <div class="row my-5">
+            <h3 class="fs-4 mb-3">Pending Bills</h3>
+            <div class="col">
+                <table class="table bg-white rounded shadow-sm  table-hover">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Bill# </th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bill in unpaid_bills %}
+                        <tr>                       
+                            
+                            <td>{{bill.id}}</td>
+                            <td>{{bill.total}}</td>
+                            <td>{{bill.date.date}}</td>
+                            <td><a href="{% url 'patient-bill' bill.id %} %" target="_blank">View</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
+        <div class="row my-5">
+            <h3 class="fs-4 mb-3">Paid Bills</h3>
+            <div class="col">
+                <table class="table bg-white rounded shadow-sm  table-hover">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Bill# </th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bill in paid_bills %}
+                        <tr>                       
+                            
+                            <td>{{bill.id}}</td>
+                            <td>{{bill.total}}</td>
+                            <td>{{bill.date}}</td>
+                            <td><a href="{% url 'patient-bill' bill.id %}" target="_blank">View</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

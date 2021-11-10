@@ -19,16 +19,45 @@
     
 </nav>
 
-<div class="container-fluid">
-    <h2>List of Doctors:</h2>
-    <ul>
-        {% for doctor in list_of_doctors %}
-        <li>{{doctor}} : 
-            <a href="{% url 'book-appointment'  doctor.id %}">Book Appointment</a>
-    
-        </li>
-        {% endfor %}
-    </ul>  
+<div class="container-fluid px-4">
+
+    <div class="row g-3 my-2 d-flex justify-content-around">
+        <div class="col-md-3">
+            <div class="p-3 bg-white shadow d-flex justify-content-around align-items-center rounded">
+                <div class="d-flex row justify-content-around ">
+                    <h3 class="fs-2 text-center">{{list_of_doctors.count}}</h3>
+                    <p class="fs-5 text-center">Doctors Available</p>
+                </div>
+                <i class="fas fa-user-md fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+            </div>
+        </div>    
+    </div>
+
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">Available Doctors</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Doctor </th>
+                        <th scope="col">Department</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doctor in list_of_doctors %}
+                    <tr>                       
+                        <td>{{doctor.first_name}} {{doctor.last_name}}</td>
+                        <td>{{doctor.department}}</td>
+                        <td><a href="{% url 'book-appointment' doctor.id %}">Book Appointment</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 
 

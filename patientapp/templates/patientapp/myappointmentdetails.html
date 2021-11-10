@@ -19,18 +19,28 @@
     
 </nav>
 
-<div class="container-fluid">
-    <h2>{{appointment}}</h2>
-    <hr>
-    <p>Appointment for Patient: {{appointment.patient}}</p>
-    <p>Appointment with Doctor: {{appointment.doctor}}</p>
-    <p>Appointment Date: {{appointment.date}}</p>
-    {% if appointment.confirmed == True %}
-    <p>Appointment Time: {{appointment.time}}</p>
-    <p>Details: {{appointment.details}}</p>
-    {% endif %}
-    <hr>
-    <p>Confirmed: {{appointment.confirmed}}</p>
+<div class="container-fluid p-4">
+        <div class="p-3 bg-white shadow rounded">
+        <h2>{{appointment}}</h2>
+        <hr>
+        <p>Appointment for Patient: {{appointment.patient}}</p>
+        <p>Appointment with Doctor: {{appointment.doctor}}</p>
+        <p>Appointment Date: {{appointment.date}}</p>
+        {% if appointment.confirmed == True and appointment.completed == False %}
+        <div class="alert alert-success">
+        <p>This appointment has been confirmed by us! </p>
+        <p>Appointment Time: {{appointment.time}}</p>
+        <p>Details: {{appointment.details}}</p>
+        </div>
+        {% elif appointment.confirmed == False %}
+        <div class="alert alert-danger">
+        <p>This appointment is yet to be confirmed. Please wait for our staff to confirm it. Thank you.</p>
+        </div>
+        {% else %}
+        <p>Appointment Time: {{appointment.time}}</p>
+        <p>Details: {{appointment.details}}</p>
+        {% endif %}
+    </div>
 </div>
 
 

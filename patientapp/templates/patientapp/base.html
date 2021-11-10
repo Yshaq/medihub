@@ -25,25 +25,25 @@
             <div class="list-group list-group-flush my-3">
                 {% if user.is_authenticated %}
                 <a href="{% url 'patient-dashboard' %}" class="list-group-item list-group-item-action bg-transparent second-text " id="dash"><i
-                        class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+                        class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
                 <a href="{% url 'profile' %}" class="list-group-item list-group-item-action bg-transparent second-text " id="dash"><i
-                        class="fas fa-notes-medical me-2"></i> Profile</a> 
+                        class="fas fa-id-badge me-2"></i>Profile</a> 
                 
                 <a href="{% url 'patient_views_doctor_list' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i
-                        class="fas fa-clock me-2"></i> Available Doctors</a>
+                        class="fas fa-user-md me-2"></i>Available Doctors</a>
                 <a href="{% url 'my_appointments' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i
-                        class="fas fa-clock me-2"></i> My Appointments</a>
+                        class="fas fa-clock me-2"></i>My Appointments</a>
                 <a href="{% url 'patient-bill-list' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i
-                    class="bi bi-receipt-cutoff"></i> My Bills</a>
+                    class="bi bi-receipt-cutoff me-2"></i> My Bills</a>
                 <a href="{% url 'patient-logout' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i
-                        class="fas fa-power-off me-2"></i> Logout</a>
+                        class="fas fa-power-off me-2"></i>Logout</a>
                 {% else %}
                     <a href="{% url 'index' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="bi bi-house-door"></i> Home</a>
+                        class="bi bi-house-door me-2"></i> Home</a>
                     <a href="{% url 'patient-login' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i 
-                        class="bi bi-box-arrow-in-right"></i> Login</a>
+                        class="bi bi-box-arrow-in-right me-2"></i> Login</a>
                     <a href="{% url 'patient-register' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i 
-                            class="bi bi-box-arrow-in-right"></i> Create Account</a>
+                            class="bi bi-plus-square me-2"></i> Create Account</a>
                 {% endif %}
                
             </div>

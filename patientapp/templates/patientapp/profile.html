@@ -19,15 +19,18 @@
     
 </nav>
 
-<div class="container-fluid">
-    <h2>{{patient}}</h2>
-    <hr>
-    <p>Name: {{patient.first_name}} {{patient.last_name}}</p>
-    <p>Gender: {{patient.gender}}</p>
-    <p>Date of Birth: {{patient.dob}}</p>
-    <p>Mobile: {{patient.phone}}</p>
-    <p>Email: {{patient.email}}</p>
-    <p>Address: {{patient.address}}</p> 
+<div class="container-fluid p-4">
+    <div class="p-3 bg-white shadow rounded">
+        <h2>{{patient}}</h2>
+        <hr>
+        <p>Patient Number: {{patient.id}}</p>
+        <p>Name: {{patient.first_name}} {{patient.last_name}}</p>
+        <p>Gender: {{patient.gender}}</p>
+        <p>Date of Birth: {{patient.dob}}</p>
+        <p>Mobile: {{patient.phone}}</p>
+        <p>Email: {{patient.email}}</p>
+        <p>Address: {{patient.address}}</p> 
+    </div>
 </div>
 
 
