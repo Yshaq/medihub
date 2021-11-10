@@ -32,7 +32,7 @@
                     {% for bill in unpaid_bills %}
                     <tr>
                         <td class="text-center">
-                            {{bill.id}} - {{bill.patient}} : <a class="btn btn-primary" href="{% url 'admin-bill' bill.id %}">PDF</a> || <a class="btn btn-success"href="{% url 'bill-set-paid' bill.id %}">PAID</a>
+                            {{bill.id}} - {{bill.patient}} : <a class="btn btn-primary" href="{% url 'admin-bill' bill.id %}" target="_blank">PDF</a> || <a class="btn btn-success"href="{% url 'bill-set-paid' bill.id %}">PAID</a>
                 
                         </td>
                     </tr>{% endfor %}
@@ -48,7 +48,7 @@
                 <tbody>{% for bill in paid_bills %}
                     <tr>
                         <td class="text-center">
-                            {{bill.id}} - {{bill.patient}} : <a class="btn btn-primary " href="{% url 'admin-bill' bill.id %}">PDF</a>
+                            {{bill.id}} - {{bill.patient}} : <a class="btn btn-primary " href="{% url 'admin-bill' bill.id %}" target="_blank">PDF</a>
                 
                         </td>
                     </tr>{% endfor %}

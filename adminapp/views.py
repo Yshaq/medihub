@@ -35,9 +35,7 @@ def dashboardView(request):
 def loginView(request):
     if request.user.is_authenticated:
         logout(request)
-
-    error = ""
-    page = ""
+        messages.info(request, "Current session has expired.")
 
     if request.method == 'POST':
         u = request.POST['username']
@@ -48,22 +46,21 @@ def loginView(request):
             if not user.groups.filter(name = 'Administrators').exists():
                 messages.error(request, "You are not an Admin")
                 return redirect('index')
+
             login(request,user)
-            error = "no"
+            messages.success(request, "Logged in successfully")
             return redirect('admin-dashboard')
 
         else:
-            error = "yes"
-            messages.error(request, 'Invalid Credentials')
+            messages.error(request, 'Credentials do not match')
         
-    context = {'error': error}
-    print(error)
+    context = {}
     return render(request,'adminapp/login.html',context)
 
 def logoutView(request):
     logout(request)
-    messages.success(request, "Logged Out")
-    return redirect('index')
+    messages.info(request, "Logged Out")
+    return redirect('admin-login')
 
 def manageAppointmentsList(request):
     requested_appointments = Appointment.objects.filter(completed=False).filter(confirmed=False)
@@ -82,6 +79,7 @@ def manageAppointment(request, id):
         form = ManageAppointmentForm(request.POST, instance=appointment)
         if form.is_valid():
             form.save()
+            messages.success(request, "Appointment saved")
             return redirect('manage-appointments-list')
 
     context = {
@@ -122,6 +120,7 @@ def generateBillView(request):
 
         bill.total = total
         bill.save()
+        messages.success(request, "Bill created")
         return redirect('admin-bills')
 
     context = {
@@ -143,6 +142,7 @@ def billSetPaid(request, id):
     bill = get_object_or_404(Bill, pk = id)
     bill.paid = True
     bill.save()
+    messages.success(request, "The bill has been set to paid.")
     return redirect('admin-bills')
 
 #=================================================
@@ -171,9 +171,10 @@ def createDoctorView(request):
         form = DoctorForm(request.POST)
         if(form.is_valid()):
             form.save()
+            messages.success(request, 'Data saved')
             return redirect('doctor-list')
         else:
-            messages.error(request, 'invalid form')
+            messages.error(request, 'Invalid form')
 
     context = {
         'form': form,
@@ -189,7 +190,10 @@ def editDoctorView(request, id):
         form = DoctorForm(request.POST, request.FILES, instance=doctor)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Data saved')
             return redirect('doctor-list')
+        else:
+            messages.error(request, 'Invalid form')
 
     context = {
         'form': form,
@@ -202,6 +206,7 @@ def deleteDoctorView(request, id):
     doctor = get_object_or_404(Doctor, pk=id)
     if(request.method == 'POST'):
         doctor.delete()
+        messages.info(request, "Data deleted.")
         return redirect('doctor-list')
 
     context = {
@@ -236,9 +241,10 @@ def createPatientView(request):
         form = PatientForm(request.POST)
         if(form.is_valid()):
             form.save()
+            messages.success(request, 'Data saved')
             return redirect('patient-list')
         else:
-            messages.error(request, 'invalid form')
+            messages.error(request, 'Invalid form')
 
     context = {
         'form': form,
@@ -254,7 +260,10 @@ def editPatientView(request, id):
         form = PatientForm(request.POST, request.FILES, instance=patient)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Data saved')
             return redirect('patient-list')
+        else:
+            messages.error(request, 'Invalid form')
 
     context = {
         'form': form,
@@ -267,6 +276,7 @@ def deletePatientView(request, id):
     patient = get_object_or_404(Patient, pk=id)
     if(request.method == 'POST'):
         patient.delete()
+        messages.info(request, 'Data deleted')
         return redirect('patient-list')
 
     context = {
@@ -301,9 +311,10 @@ def createAppointmentView(request):
         form = AppointmentForm(request.POST)
         if(form.is_valid()):
             form.save()
+            messages.success(request, "Data saved")
             return redirect('appointment-list')
         else:
-            messages.error(request, 'invalid form')
+            messages.error(request, 'Invalid form')
 
     context = {
         'form': form,
@@ -319,7 +330,10 @@ def editAppointmentView(request, id):
         form = AppointmentForm(request.POST, request.FILES, instance=appointment)
         if form.is_valid():
             form.save()
+            messages.success(request, "Data saved")
             return redirect('appointment-list')
+        else:
+            messages.error(request, 'Invalid form')
 
     context = {
         'form': form,
@@ -332,6 +346,7 @@ def deleteAppointmentView(request, id):
     appointment = get_object_or_404(Appointment, pk=id)
     if(request.method == 'POST'):
         appointment.delete()
+        messages.info(request, "Data deleted")
         return redirect('appointment-list')
 
     context = {
