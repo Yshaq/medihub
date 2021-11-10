@@ -10,7 +10,7 @@ from .forms import ManageAppointmentForm
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import login, authenticate, logout
-
+import datetime
 # Create your views here.
 def doctorRegistration(request):
     error = ""
@@ -44,7 +44,10 @@ def doctorRegistration(request):
     return render(request, 'doctorapp/doctor_registration.html', context)
 
 def dashboardView(request):
-    return render(request, 'doctorapp/dashboard.html')
+    doctor = request.user.doctor
+    today=doctor.appointment_set.filter(confirmed=True).filter(date=datetime.datetime.today())
+    context={'appointments_today':today}
+    return render(request, 'doctorapp/dashboard.html',context)
 
 def loginView(request):
     error = ""

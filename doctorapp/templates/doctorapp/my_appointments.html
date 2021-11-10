@@ -1,19 +1,58 @@
 {% extends 'doctorapp/base.html' %}
 {% block content %}
-
-<h1>Upcoming Appointments</h1>
-<ul>
-    {% for appointment in upcoming_appointments %}
-    <li>{{appointment.patient}} on {{appointment.date}} at {{appointment.time}} - <a href="{% url 'doctor-manage-appointment' appointment.id %}">Manage</a></li>
-    {% endfor %}
-</ul>
-<hr>
-
-<h3>Completed Appointments:</h3>
-<ul>
-    {% for appointment in completed_appointments %}
-    <li>{{appointment.patient}} on {{appointment.date}} at {{appointment.time}} - <a href="{% url 'doctor-manage-appointment' appointment.id %}">Manage</a></li>
-    {% endfor %}
-</ul>
+<div class="container-fluid" id="page-content-wrapper">
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+    <div class="d-flex align-items-center justify-content-end">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-2">Appointments</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                
+                    <i class="fas fa-user me-2"></i>{{user.username}}
+                
+                
+            </li>
+        </ul>
+    </div>   
+    
+    
+</nav>
+<div class="row my-5">
+    <h3 class="fs-4 mb-3 text-center">Requested Appointments</h3>
+    <div class="col">
+        <table class="table bg-white rounded shadow-sm  table-hover">
+            
+            <tbody>
+                {% for appointment in upcoming_appointments %}
+                <tr>
+                    <td class="text-center">
+                        {{appointment.patient}} on {{appointment.date}} at {{appointment.time}} -  |  <a class="btn btn-primary btn-sm"href="{% url 'doctor-manage-appointment' appointment.id %}">Manage</a>
+            
+                    </td>
+                </tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row my-5">
+    <h3 class="fs-4 mb-3 text-center">Requested Appointments</h3>
+    <div class="col">
+        <table class="table bg-white rounded shadow-sm  table-hover">
+            
+            <tbody>
+                {% for appointment in completed_appointments %}
+                <tr>
+                    <td class="text-center">
+                        {{appointment.patient}} on {{appointment.date}} at {{appointment.time}} -  |  <a class="btn btn-primary btn-sm"href="{% url 'doctor-manage-appointment' appointment.id %}">Manage</a>
+            
+                    </td>
+                </tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
 
 {% endblock %}
