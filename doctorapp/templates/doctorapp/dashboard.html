@@ -1,12 +1,60 @@
 {% extends 'doctorapp/base.html' %}
 
 {% block content %}
-<div id="wrapper">
-   
-    <div class="page-content-wrapper">
-        <div class="container-fluid"><a class="btn btn-link" role="button" id="menu-toggle" href="#menu-toggle"><i class="fa fa-bars" ></i></a>
-            <h1 class="text-center" > logged in..{{ user.username }}</h1>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+    <div class="d-flex align-items-center justify-content-end">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-2">Dashboard</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                
+                    <i class="fas fa-user me-2"></i>{{user.username}}
+                
+                
+            </li>
+        </ul>
+    </div>   
+    
+    
+</nav>
+
+            
+<div class="container-fluid px-4 ">
+    
+
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">Appointments Today</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">ID </th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appo in appointments_today %}
+                    
+                    <tr>
+
+                        
+                        
+                        <td>{{appo.patient.id}}</td>
+                        <td>{{appo.patient}}</td>
+                        <td>{{appo.time}}</td></a>
+                    </tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
+
 </div>
+   
 {% endblock %}
