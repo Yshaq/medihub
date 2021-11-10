@@ -1,0 +1,11 @@
+.toast-warning {
+    background:rgb(255, 246, 168);
+}
+
+.toast-success {
+    background:rgb(143, 255, 158);
+}
+
+.toast-error {
+    background:rgb(255, 168, 168);
+}
