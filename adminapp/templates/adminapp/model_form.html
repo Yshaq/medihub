@@ -1,6 +1,6 @@
 {% extends 'adminapp/crud_index.html' %}
 {% block main %}
-<form action="" method="POST">
+<form action="" class="text-center"method="POST">
     {% csrf_token %}
     {{form.as_p}}
     <input type="submit" value="Submit">
