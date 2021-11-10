@@ -1,7 +1,26 @@
 {% extends 'patientapp/base.html' %}
 {% block content %}
-<p><h2>Upcoming Appoinments:</h2>
-{% for appo in appointments%}
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+    <div class="d-flex align-items-center justify-content-end">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-2">Appointments</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                
+                    <i class="fas fa-user me-2"></i>{{user.username}}
+                
+                
+            </li>
+        </ul>
+    </div>   
+    
+    
+</nav>
+
+<div class="container-fluid">
+    {% for appo in appointments%}
     {% if appo.completed == False %}
     {{appo}} <a href="{% url 'my_appointment_detail' appo.id %}">View</a> 
     {% endif %}
@@ -13,5 +32,8 @@
         {{appo}} <a href="{% url 'my_appointment_detail' appo.id %}">View</a>
         {% endif %}
     {% endfor %}
-    </p>
+    </p>  
+</div>
+<p><h2>Upcoming Appoinments:</h2>
+
 {% endblock %}

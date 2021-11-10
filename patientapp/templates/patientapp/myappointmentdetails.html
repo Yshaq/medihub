@@ -1,16 +1,38 @@
 {% extends 'patientapp/base.html' %}
 {% block content %}
-<h2>{{appointment}}</h2>
-<hr>
-<p>Appointment for Patient: {{appointment.patient}}</p>
-<p>Appointment with Doctor: {{appointment.doctor}}</p>
-<p>Appointment Date: {{appointment.date}}</p>
-{% if appointment.confirmed == True %}
-<p>Appointment Time: {{appointment.time}}</p>
-<p>Details: {{appointment.details}}</p>
-{% endif %}
-<hr>
-<p>Confirmed: {{appointment.confirmed}}</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+    <div class="d-flex align-items-center justify-content-end">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-2">Appointment</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                
+                    <i class="fas fa-user me-2"></i>{{user.username}}
+                
+                
+            </li>
+        </ul>
+    </div>   
+    
+    
+</nav>
+
+<div class="container-fluid">
+    <h2>{{appointment}}</h2>
+    <hr>
+    <p>Appointment for Patient: {{appointment.patient}}</p>
+    <p>Appointment with Doctor: {{appointment.doctor}}</p>
+    <p>Appointment Date: {{appointment.date}}</p>
+    {% if appointment.confirmed == True %}
+    <p>Appointment Time: {{appointment.time}}</p>
+    <p>Details: {{appointment.details}}</p>
+    {% endif %}
+    <hr>
+    <p>Confirmed: {{appointment.confirmed}}</p>
+</div>
+
 
 
 {% endblock %}
