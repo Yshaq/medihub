@@ -1,6 +1,6 @@
 {% extends 'adminapp/crud_index.html' %}
 {% block main %}
-<h2>List of Patients:</h2>
+<!-- <h2>List of Patients:</h2>
 <ul>
     {% for patient in list_of_patients %}
     <li>{{patient}} : 
@@ -9,8 +9,28 @@
         <a href="{% url 'delete-patient' patient.id %}">Delete</a>
     </li>
     {% endfor %}
-</ul>
+</ul> -->
 
-<p><a href="{% url 'create-patient' %}">Create new patient</a></p>
-
+<!-- <p><a href="{% url 'create-patient' %}">Create new patient</a></p> -->
+<div class="row my-5">
+    <h3 class="fs-4 mb-3 text-center">List of Patients:</h3>
+    <div class="col">
+        <table class="table bg-white rounded shadow-sm  table-hover">
+            
+            <tbody>{% for patient in list_of_patients %}<tr>
+                <td class="text-center">
+                    {{patient}} : 
+                        <a href="{% url 'patient-detail' patient.id %}">View</a> |
+                        <a href="{% url 'edit-patient' patient.id %}">Edit</a> |
+                        <a href="{% url 'delete-patient' patient.id %}">Delete</a>
+                    
+                    
+                </td>
+            </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h3 class="fs-4 mb-3 text-center"><a style="text-decoration:none !important"href="{% url 'create-patient' %}">Create new patient</a></h3>
+</div>
 {% endblock %}

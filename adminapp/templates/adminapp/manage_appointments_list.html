@@ -1,29 +1,74 @@
 {% extends 'adminapp/base.html' %}
 {% block content %}
 
-<div class="container-fluid">
-    <div class="row">
-    <div class="col-sm-12">
+<div class="d-flex" id="wrapper">
+<!-- Sidebar -->
+<div class="bg-white" id="sidebar-wrapper">
+    <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
+            class="fas fa-hospital me-2"></i>Medihub</div>
+    <div class="list-group list-group-flush my-3">
+        <a href="{% url 'admin-dashboard' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i
+                class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+        <a href="{% url 'crud-index' %}" class="list-group-item list-group-item-action bg-transparent second-text " id="dash"><i
+                class="fas fa-notes-medical me-2"></i>CRUD</a>     
+        <a href="{% url 'manage-appointments-list' %}" class="list-group-item list-group-item-action bg-transparent second-text active "><i
+                class="fas fa-clock me-2"></i>Appointments</a>
+        <a href="{% url 'admin-logout' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                class="fas fa-power-off me-2"></i>Logout</a>
+       
+    </div>
+</div>
 
-        <h1>Appointments</h1>
-        <hr>
-        <h3>Requested Appointments</h3>
-        <ul>
-            {% for appointment in requested_appointments %}
-            <li>{{appointment.patient}} requested for Doctor {{appointment.doctor}} | <a href="{% url 'manage-appointment' appointment.id %}">Manage</a></li>
-            {% endfor %}
-        </ul>
+<!-- /#sidebar-wrapper -->
+<div class="container-fluid" id="page-content-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+        <div class="d-flex align-items-center justify-content-end">
+            <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+            <h2 class="fs-2 m-2">Appointments</h2>
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+        <div class="d-flex align-items-center justify-items-end">
+            <i class="fas fa-user" ></i>
+                    <h2 class="fs-4 m-2">  {{user.username}}</h2>
+        </div>
 
-        <hr>
-        <h3>Confirmed Appointments</h3>
-        <ul>
-            {% for appointment in confirmed_appointments %}
-            <li>{{appointment.patient.}} confirmed with Doctor {{appointment.doctor}} | <a href="{% url 'manage-appointment' appointment.id %}">Manage</a></li>
-            {% endfor %}
-        </ul>
+
+        
+        
+    </nav>
+    
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3 text-center">Requested Appointments</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                
+                <tbody>
+                    <td>{% for appointment in requested_appointments %}
+                    {{appointment.patient}} requested for Doctor {{appointment.doctor}} | <a href="{% url 'manage-appointment' appointment.id %}">Manage</a>
+                {% endfor %}
+                    </td>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3  text-center">Confirmed Appointments</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                
+                <tbody>
+                    <td>{% for appointment in confirmed_appointments %}
+                    {{appointment.patient}} confirmed for Doctor {{appointment.doctor}} | <a href="{% url 'manage-appointment' appointment.id %}">Manage</a>
+                {% endfor %}
+                    </td>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </div>
 
+   
 
 {% endblock %}

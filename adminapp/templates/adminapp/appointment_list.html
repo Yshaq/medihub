@@ -1,6 +1,6 @@
 {% extends 'adminapp/crud_index.html' %}
 {% block main %}
-<h2>List of Appointments:</h2>
+<!-- <h2>List of Appointments:</h2>
 <ul>
     {% for appointment in list_of_appointments %}
     <li>{{appointment}} : 
@@ -11,6 +11,26 @@
     {% endfor %}
 </ul>
 
-<p><a href="{% url 'create-appointment' %}">Create new Appointment</a></p>
-
+<p><a href="{% url 'create-appointment' %}">Create new Appointment</a></p> -->
+<div class="row my-5">
+    <h3 class="fs-4 mb-3 text-center">List of Appointments:</h3>
+    <div class="col">
+        <table class="table bg-white rounded shadow-sm  table-hover">
+            
+            <tbody>{% for appointment in list_of_appointments %}<tr>
+                <td class="text-center">
+                    {{appointment}} : 
+                    <a href="{% url 'appointment-detail' appointment.id %}">View</a> |
+                    <a href="{% url 'edit-appointment' appointment.id %}">Edit</a> |
+                    <a href="{% url 'delete-appointment' appointment.id %}">Delete</a>
+                    
+                    
+                </td>
+            </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h3 class="fs-4 mb-3 text-center"><a style="text-decoration:none !important"href="{% url 'create-appointment' %}">Create new appointment</a></h3>
+</div>
 {% endblock %}
