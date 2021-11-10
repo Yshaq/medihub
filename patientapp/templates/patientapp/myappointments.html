@@ -1,17 +1,157 @@
 {% extends 'patientapp/base.html' %}
 {% block content %}
-<p><h2>Upcoming Appoinments:</h2>
-{% for appo in appointments%}
-    {% if appo.completed == False %}
-    {{appo}} <a href="{% url 'my_appointment_detail' appo.id %}">View</a> 
-    {% endif %}
-{% endfor %}
-</p>
-<p><h2>Completed Appoinments:</h2>
-    {% for appo in appointments%}
-        {% if appo.completed == True %}
-        {{appo}} <a href="{% url 'my_appointment_detail' appo.id %}">View</a>
-        {% endif %}
-    {% endfor %}
-    </p>
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+    <div class="d-flex align-items-center justify-content-end">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-2">Appointments</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                
+                    <i class="fas fa-user me-2"></i>{{user.username}}
+                
+                
+            </li>
+        </ul>
+    </div>   
+    
+    
+</nav>
+
+<div class="container-fluid px-4 ">
+    <div class="row g-3 my-2 d-flex justify-content-around">
+        <div class="col-md-3">
+            <div class="p-3 bg-white shadow d-flex justify-content-around align-items-center rounded">
+                <div class="d-flex row justify-content-around ">
+                    <h3 class="fs-2 text-center">{{no_confirmed}}</h3>
+                    <p class="fs-5 text-center">Upcoming Appointments</p>
+                </div>
+                <i class="fas fa-clock fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="p-3 bg-white shadow d-flex justify-content-around align-items-center rounded">
+                <div>
+                    <h3 class="fs-2 text-center">{{no_requested}}</h3>
+                    <p class="fs-5 text-center">Requested Appointments</p>
+                </div>
+                <i
+                    class="fas fa-hourglass-half fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="p-3 bg-white shadow d-flex justify-content-around align-items-center rounded">
+                <div>
+                    <h3 class="fs-2 text-center">{{no_completed}}</h3>
+                    <p class="fs-5 text-center">Completed appointments</p>
+                </div>
+                <i class="fas fa-check fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+            </div>
+        </div>        
+    </div>
+
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">Upcoming Appointments</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Doctor </th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appo in appointments %}
+                    {% if appo.completed == False and appo.confirmed == True %}
+                    <tr>                       
+                        
+                        <td>{{appo.doctor}}</td>
+                        <td>{{appo.patient.first_name}} {{appo.patient.last_name}}</td>
+                        <td>{{appo.date}}</td>
+                        <td>{{appo.time}}</td>
+                        <td><a href="{% url 'my_appointment_detail' appo.id %}">View</a></td>
+                        <td><a class="text-danger" href="{% url 'patient-cancel-appointment' appo.id %}">Cancel</a></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">Requested Appointments</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Doctor </th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Date</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appo in appointments %}
+                    {% if appo.completed == False and appo.confirmed == False %}
+                    <tr>                       
+                        
+                        <td>{{appo.doctor}}</td>
+                        <td>{{appo.patient.first_name}} {{appo.patient.last_name}}</td>
+                        <td>{{appo.date}}</td>
+                        <td><a href="{% url 'my_appointment_detail' appo.id %}">View</a></td>
+                        <td><a class="text-danger" href="{% url 'patient-cancel-appointment' appo.id %}">Cancel</a></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">Completed Appointments</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Doctor </th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appo in appointments %}
+                    {% if appo.completed == True %}
+                    <tr>                       
+                        
+                        <td>{{appo.doctor}}</td>
+                        <td>{{appo.patient.first_name}} {{appo.patient.last_name}}</td>
+                        <td>{{appo.date}}</td>
+                        <td>{{appo.time}}</td>
+                        <td><a href="{% url 'my_appointment_detail' appo.id %}">View</a></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+
 {% endblock %}

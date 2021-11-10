@@ -1,27 +1,52 @@
 {% extends 'patientapp/base.html' %}
 
 {% block content %}
-
-<form action="" method="POST">
-    {% csrf_token %}
-    <p>Doctor : {{doctor.first_name}} {{doctor.last_name}}</p>
-    <p>Department : {{doctor.department}}</p>
-    <p>Patient: {{patient.first_name}} {{patient.last_name}}</p>
-    {% csrf_token %}
-            
-            <div class="form-row form-group">
-                <div class="col-sm-4 label-column">
-                    <label class="col-form-label" for="date-input-field">Date:</label>
-                </div>
-                <div class="col-sm-6 input-column">
-                    <input class="form-control" type="date" name="date" required="">
-                </div>
-            </div>
-            
-            <button class="btn btn-primary submit-button" type="submit">Request Appointment</button>
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+    <div class="d-flex align-items-center justify-content-end">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-2">Book Appointment</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                
+                    <i class="fas fa-user me-2"></i>{{user.username}}
+                
+                
+            </li>
+        </ul>
+    </div>   
     
+    
+</nav>
 
-</form>
+<div class="container-fluid">
+    <div class="p-3 bg-white shadow rounded">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <p>Doctor : {{doctor.first_name}} {{doctor.last_name}}</p>
+        <p>Department : {{doctor.department}}</p>
+        <p>Patient: {{patient.first_name}} {{patient.last_name}}</p>
+        {% csrf_token %}
+                
+                <div class="form-row form-group">
+                    <div class="col-sm-4 label-column">
+                        <label class="col-form-label" for="date-input-field">Date:</label>
+                    </div>
+                    <div class="col-sm-6 input-column">
+                        <input class="form-control" type="date" name="date" required="">
+                    </div>
+                </div>
+
+                <br>
+                
+                <button class="btn btn-primary submit-button" type="submit">Request Appointment</button>
+        
+    
+    </form>
+    </div>
+</div>
+
 {% ifequal error "yes" %}
 <script type="text/javascript">
     

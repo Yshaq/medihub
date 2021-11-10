@@ -43,7 +43,16 @@ def logoutView(request):
     return redirect('index')
 
 def dashboardView(request):
-    return render(request, 'patientapp/dashboard.html')
+    patient = request.user.patient
+    no_confirmed = patient.appointment_set.filter(completed=False).filter(confirmed=True).count()
+    no_requested = patient.appointment_set.filter(completed=False).filter(confirmed=False).count()
+    no_completed = patient.appointment_set.filter(completed=True).count()
+    context = {
+        'no_confirmed': no_confirmed,
+        'no_requested': no_requested,
+        'no_completed': no_completed,
+    }
+    return render(request, 'patientapp/dashboard.html', context)
 
 def patientRegistration(request):
     error = ""
@@ -117,19 +126,39 @@ def bookappointment(request,id):
         
     }
     return render(request, 'patientapp/appointments.html', context)
+
 def myappointments(request):
-    patient = get_object_or_404(Patient, email=request.user)
+    patient = get_object_or_404(Patient, user=request.user)
     appointments=Appointment.objects.all().filter(patient=patient)
-    context={
-        'appointments':appointments
+    no_confirmed = patient.appointment_set.filter(completed=False).filter(confirmed=True).count()
+    no_requested = patient.appointment_set.filter(completed=False).filter(confirmed=False).count()
+    no_completed = patient.appointment_set.filter(completed=True).count()
+    context = {
+        'no_confirmed': no_confirmed,
+        'no_requested': no_requested,
+        'no_completed': no_completed,
+        'appointments': appointments,
     }
     return render(request,'patientapp/myappointments.html',context)
+
 def myappointmentdetails(request,id):
     appointment =get_object_or_404(Appointment, pk=id)
     context={
         'appointment':appointment
     }
     return render(request,'patientapp/myappointmentdetails.html',context)
+
+def appointmentCancelView(request, id):
+    appointment = get_object_or_404(Appointment, pk=id, patient=request.user.patient)
+
+    if request.method == 'POST':
+        appointment.delete()
+        return redirect('my_appointments')
+
+    context = {
+        'appointment': appointment,
+    }
+    return render(request, 'patientapp/cancelappointment.html', context)
 
 def billPdfView(request, id):
     bill = Bill.objects.get(pk=id)

@@ -1,0 +1,54 @@
+{% extends 'patientapp/base.html' %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+    <div class="d-flex align-items-center justify-content-end">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-2">Profile</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                
+                    <i class="fas fa-user me-2"></i>{{user.username}}
+                
+                
+            </li>
+        </ul>
+    </div>   
+    
+    
+</nav>
+
+<div class="container-fluid p-4">
+    <div class="p-3 bg-white shadow rounded">
+        <div class="alert alert-danger">
+            <p>You are going to cancel an appointment 
+                {% if appointment.confirmed == False %}
+                request
+                {% endif %} !</p>
+        </div>
+        <p>Are you sure you want to cancel this appointment
+            {% if appointment.confirmed == False %}
+             request
+            {% endif %}
+            ? </p>
+        <p>Doctor: {{appointment.doctor}}</p>
+        <p>Date: {{appointment.date}}</p>
+        <hr>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-3">
+                    <a href="{% url 'my_appointments' %}" class="me-10"><button class="btn btn-primary" type="button">Go Back</button></a>
+                </div>
+                <div class="col-9">
+                    <button class="btn btn-danger" type="submit">Cancel</button>                    
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+{% endblock %}
