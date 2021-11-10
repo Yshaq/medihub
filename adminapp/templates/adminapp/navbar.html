@@ -6,6 +6,7 @@
                 {% if request.user.is_authenticated %}
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'admin-dashboard' %}">Dashboard</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'manage-appointments-list' %}">Appointments</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'admin-bills' %}">Bills</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'crud-index' %}">CRUD</a></li>
                 <!-- <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'doctor-list' %}">Doctors</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link"href="{% url 'patient-list' %}">Patients</a></li>

@@ -19,6 +19,7 @@ from hospital.views import *
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from medihub import settings
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,9 +28,7 @@ urlpatterns = [
     path('adminapp/', include('adminapp.urls')),
     path('doctorapp/', include('doctorapp.urls')),
     path('patientapp/', include('patientapp.urls')),
-    
-    
-    
+
 ]
 
-
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)

@@ -1,0 +1,89 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/billgen.css' %}">
+
+<div class="billgencontainer">
+    <h3>Generate Bill</h3>
+    <form action="" id="generatebillform" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="patientNumberInput" class="form-label">Patient Id:</label>
+            <input type="number" class="form-control" id="patientNumberInput" placeholder="12345" name="patno" required>
+        </div>
+        <h4>Items</h4>
+        <div id="billItems">
+        <div class="billItem">
+            <div class="row">
+                <div class="mb-3 col-sm-6">
+                    <label class="form-label">Select Item 1</label>
+                    <select class="form-select" name="item1" aria-label="Default select example" required>
+                        {% for item in bill_items %}
+                        <option value="{{item.id}}">{{item.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3 col-sm-6">
+                    <label class="form-label">Qty:</label>
+                    <input type="number" class="form-control" name="qty1" value=1 required>
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+        <button class="btn btn-success" type="button" id="addfieldbutton">Add Field</button>
+        <button class="btn btn-danger" type="button" id="removefieldbutton">Remove Field</button>
+        <hr>
+        <button class="btn btn-primary" type="submit">Create</button>
+    </form>
+    </div>
+
+<!-- ===================SCRIPT============================= -->
+
+<script>
+    const form = document.getElementById('generatebillform');
+    const billitemsdiv = document.getElementById('billItems')
+    const addfieldbutton = document.getElementById('addfieldbutton');
+    const removefieldbutton = document.getElementById('removefieldbutton');
+    
+    var fieldnos = 1;
+    
+    addfieldbutton.addEventListener("click", addfield);
+    removefieldbutton.addEventListener("click", removefield);
+    
+    function addfield() {
+        fieldnos = fieldnos+1;
+        var newitemdiv = document.createElement('div')
+        newitemdiv.setAttribute('class', 'billItem');
+        newitemdiv.innerHTML = `
+        <div class="row">
+        <div class="mb-3 col-sm-6">
+            <label class="form-label">Select Item ${fieldnos}</label>
+            <select class="form-select" name="item${fieldnos}" aria-label="Default select example" required>
+                {% for item in bill_items %}
+                    <option value="{{item.id}}">{{item.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3 col-sm-6">
+            <label class="form-label">Qty:</label>
+            <input type="number" class="form-control" name="qty${fieldnos}" value=1 required>
+        </div>
+        </div>
+        `;
+        billitemsdiv.appendChild(newitemdiv);
+    }
+    
+    function removefield() {
+        if(fieldnos>1) {
+            itemdivs = document.querySelectorAll('.billItem');
+            billitemsdiv.removeChild(itemdivs[fieldnos-1]);
+            fieldnos = fieldnos - 1
+        }
+    }
+    
+
+</script>
+
+{% endblock %}

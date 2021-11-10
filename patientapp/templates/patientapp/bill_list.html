@@ -1,0 +1,19 @@
+{% extends 'patientapp/base.html' %}
+{% block content %}
+
+<hr>
+<h3>Unpaid Bills</h3>
+<ul>
+{% for bill in unpaid_bills %}
+    <li>{{bill.id}} - {{bill.patient}} : <a href="{% url 'patient-bill' bill.id %}">View</a></li>
+{% endfor %}
+</ul>
+
+<h3>Paid Bills</h3>
+<ul>
+{% for bill in paid_bills %}
+    <li>{{bill.id}} - {{bill.patient}} : <a href="{% url 'patient-bill' bill.id %}">View</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

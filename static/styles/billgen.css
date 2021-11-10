@@ -1,0 +1,13 @@
+.billgencontainer {
+    margin: 20px auto;
+    width: 80%;
+    border: 2px solid black;
+    padding: 15px;
+}
+
+.billItem {
+
+    border-top: 2px dotted gray;
+    margin: 5px 0px;
+    padding: 5px;
+}
