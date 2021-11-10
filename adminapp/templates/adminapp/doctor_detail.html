@@ -1,5 +1,7 @@
 {% extends 'adminapp/crud_index.html' %}
 {% block main %}
+
+<div class="text-center">
 <h2>{{doctor}}</h2>
 <hr>
 <p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
@@ -8,7 +10,7 @@
 <p>Mobile: {{doctor.phone}}</p>
 <p>Email: {{doctor.email}}</p>
 <hr>
-<p>Schedule: <p>{{doctor.schedule}}</p></p>
-
+<p>Schedule: {{doctor.schedule}}</p></p>
+</div>
 
 {% endblock %}

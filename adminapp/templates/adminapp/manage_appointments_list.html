@@ -8,14 +8,16 @@
             <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
             <h2 class="fs-2 m-2">Appointments</h2>
         </div>
-    </nav>
-    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
-        <div class="d-flex align-items-center justify-items-end">
-            <i class="fas fa-user" ></i>
-                    <h2 class="fs-4 m-2">  {{user.username}}</h2>
-        </div>
-
-
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    
+                        <i class="fas fa-user me-2"></i>{{user.username}}
+                    
+                    
+                </li>
+            </ul>
+        </div>   
         
         
     </nav>
@@ -26,10 +28,13 @@
             <table class="table bg-white rounded shadow-sm  table-hover">
                 
                 <tbody>
-                    <td>{% for appointment in requested_appointments %}
-                    {{appointment.patient}} requested for Doctor {{appointment.doctor}} | <a href="{% url 'manage-appointment' appointment.id %}">Manage</a>
-                {% endfor %}
-                    </td>
+                    {% for appointment in requested_appointments %}
+                    <tr>
+                        <td class="text-center">
+                        {{appointment.patient}} requested with Doctor {{appointment.doctor}} |  <a class="btn btn-primary btn-sm"href="{% url 'manage-appointment' appointment.id %}">Manage</a>
+                
+                        </td>
+                    </tr>{% endfor %}
                 </tbody>
             </table>
         </div>
@@ -39,11 +44,13 @@
         <div class="col">
             <table class="table bg-white rounded shadow-sm  table-hover">
                 
-                <tbody>
-                    <td>{% for appointment in confirmed_appointments %}
-                    {{appointment.patient}} confirmed for Doctor {{appointment.doctor}} | <a href="{% url 'manage-appointment' appointment.id %}">Manage</a>
-                {% endfor %}
-                    </td>
+                <tbody>{% for appointment in confirmed_appointments %}
+                    <tr>
+                        <td class="text-center">
+                        {{appointment.patient}} confirmed with Doctor {{appointment.doctor}} | <a class="btn btn-primary btn-sm" href="{% url 'manage-appointment' appointment.id %}">Manage</a>
+                
+                        </td>
+                    </tr>{% endfor %}
                 </tbody>
             </table>
         </div>

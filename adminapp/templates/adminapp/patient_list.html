@@ -20,9 +20,9 @@
             <tbody>{% for patient in list_of_patients %}<tr>
                 <td class="text-center">
                     {{patient}} : 
-                        <a href="{% url 'patient-detail' patient.id %}">View</a> |
-                        <a href="{% url 'edit-patient' patient.id %}">Edit</a> |
-                        <a href="{% url 'delete-patient' patient.id %}">Delete</a>
+                        <a class="btn btn-primary btn-sm"  href="{% url 'patient-detail' patient.id %}">View</a> 
+                        <a  class="btn btn-secondary btn-sm"  href="{% url 'edit-patient' patient.id %}">Edit</a> 
+                        <a class="btn btn-danger btn-sm"  href="{% url 'delete-patient' patient.id %}">Delete</a>
                     
                     
                 </td>
@@ -31,6 +31,6 @@
             </tbody>
         </table>
     </div>
-    <h3 class="fs-4 mb-3 text-center"><a style="text-decoration:none !important"href="{% url 'create-patient' %}">Create new patient</a></h3>
+    <h3 class="fs-4 mb-3 text-center"><a class ="btn btn-primary "style="text-decoration:none !important"href="{% url 'create-patient' %}">Create new patient</a></h3>
 </div>
 {% endblock %}

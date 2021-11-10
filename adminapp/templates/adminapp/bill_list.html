@@ -1,20 +1,61 @@
 {% extends 'adminapp/base.html' %}
 {% block content %}
 
-<p><a href="{% url 'generate-bill' %}">Generate Bill</a></p>
-<hr>
-<h3>Unpaid Bills</h3>
-<ul>
-{% for bill in unpaid_bills %}
-    <li>{{bill.id}} - {{bill.patient}} : <a href="{% url 'admin-bill' bill.id %}">PDF</a> || <a href="{% url 'bill-set-paid' bill.id %}">PAID</a></li>
-{% endfor %}
-</ul>
 
-<h3>Paid Bills</h3>
-<ul>
-{% for bill in paid_bills %}
-    <li>{{bill.id}} - {{bill.patient}} : <a href="{% url 'admin-bill' bill.id %}">PDF</a></li>
-{% endfor %}
-</ul>
 
+<div class="container-fluid" id="page-content-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+        <div class="d-flex align-items-center justify-content-end">
+            <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+            <h2 class="fs-2 m-2">Bills</h2>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    
+                        <i class="fas fa-user me-2"></i>{{user.username}}
+                    
+                    
+                </li>
+            </ul>
+        </div>   
+        
+        
+    </nav>
+    
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3 text-center">Unpaid Bills</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                
+                <tbody>
+                    {% for bill in unpaid_bills %}
+                    <tr>
+                        <td class="text-center">
+                            {{bill.id}} - {{bill.patient}} : <a class="btn btn-primary" href="{% url 'admin-bill' bill.id %}">PDF</a> || <a class="btn btn-success"href="{% url 'bill-set-paid' bill.id %}">PAID</a>
+                
+                        </td>
+                    </tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3  text-center">Paid Bills</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                
+                <tbody>{% for bill in paid_bills %}
+                    <tr>
+                        <td class="text-center">
+                            {{bill.id}} - {{bill.patient}} : <a class="btn btn-primary " href="{% url 'admin-bill' bill.id %}">PDF</a>
+                
+                        </td>
+                    </tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <h3 class="fs-4 mb-3 text-center"><a class="btn btn-primary"style="text-decoration:none !important"href="{% url 'generate-bill' %}">Generate Bill</a></h3>
+</div>
 {% endblock %}
