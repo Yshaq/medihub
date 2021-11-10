@@ -50,8 +50,9 @@ def dashboardView(request):
     return render(request, 'doctorapp/dashboard.html',context)
 
 def loginView(request):
-    error = ""
-    page = ""
+    if request.user.is_authenticated:
+        logout(request)
+        messages.info(request, "Current session has expired.")
 
     if request.method == 'POST':
         u = request.POST['username']
@@ -63,15 +64,13 @@ def loginView(request):
                 messages.error(request, "You are not a Doctor")
                 return redirect('index')
             login(request,user)
-            error = "no"
+            messages.success(request, 'Logged in successfully')
             return redirect('doctor-dashboard')
 
         else:
-            error = "yes"
             messages.error(request, 'Invalid Credentials')
         
-    context = {'error': error}
-    print(error)
+    context = {}
     return render(request,'doctorapp/login.html',context)
 
 def logoutView(request):
@@ -99,7 +98,10 @@ def manageAppointmentView(request, id):
         form = ManageAppointmentForm(request.POST, instance=appointment)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Appointment saved')
             return redirect('doctor-appointments')
+        else:
+            messages.error(request, 'Invalid form')
 
     context = {
         'appointment': appointment,

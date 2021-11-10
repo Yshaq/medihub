@@ -13,8 +13,9 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def loginView(request):
-    error = ""
-    page = ""
+    if request.user.is_authenticated:
+        logout(request)
+        messages.info(request, "Current session has expired.")
 
     if request.method == 'POST':
         u = request.POST['username']
@@ -26,15 +27,13 @@ def loginView(request):
                 messages.error(request, "You are not a Patient")
                 return redirect('index')
             login(request,user)
-            error = "no"
+            messages.success(request, 'Logged in successfully')
             return redirect('patient-dashboard')
 
         else:
-            error = "yes"
             messages.error(request, 'Invalid Credentials')
         
-    context = {'error': error}
-    print(error)
+    context = {}
     return render(request,'patientapp/login.html',context)
 
 def logoutView(request):
@@ -75,18 +74,13 @@ def patientRegistration(request):
 
             pat_group = Group.objects.get_or_create(name='Patients')[0]
             pat_group.user_set.add(user)
-            #print(pat_group)
             user.save()
-            messages.success(request, "Patient created successfully!")
-            #print(user)
-            error = "no"
+            messages.success(request, "Patient account created successfully!")
             return redirect('index')
         else:
             messages.error(request, "Passwords do not match")
-            error = "yes"
                     
-    context = {'error' : error}
-    #print(error)
+    context = {}
     return render(request,'patientapp/patientregistration.html',context)
 
 def profile(request):
@@ -107,23 +101,18 @@ def doctorListView(request):
     return render(request, 'patientapp/doctor_list.html', context)
 
 def bookappointment(request,id):
-    patient = get_object_or_404(Patient, email=request.user)
+    patient = get_object_or_404(Patient, user=request.user)
     doctor=get_object_or_404(Doctor,pk=id)
-    error=""
+
     if request.method == 'POST':
-        # try:
-            date=request.POST["date"]
-            appointment = Appointment.objects.create( doctor=doctor,patient=patient,date=date)
-            messages.success(request,"Appointment requested")
-            return redirect('patient_views_doctor_list')
-        # except:
-        #     error="yes"
+        date=request.POST["date"]
+        appointment = Appointment.objects.create( doctor=doctor,patient=patient,date=date)
+        messages.success(request,"Appointment requested")
+        return redirect('patient_views_doctor_list')
             
-    context = {
-        
+    context = {        
         'doctor':doctor,
-        'patient':patient,
-        
+        'patient':patient,        
     }
     return render(request, 'patientapp/appointments.html', context)
 
@@ -153,6 +142,7 @@ def appointmentCancelView(request, id):
 
     if request.method == 'POST':
         appointment.delete()
+        messages.info(request, 'Appointment cancelled')
         return redirect('my_appointments')
 
     context = {
