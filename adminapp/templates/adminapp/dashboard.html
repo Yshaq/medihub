@@ -1,12 +1,122 @@
 {% extends 'adminapp/base.html' %}
-
 {% block content %}
-<div id="wrapper">
-   
-    <div class="page-content-wrapper">
-        <div class="container-fluid"><a class="btn btn-link" role="button" id="menu-toggle" href="#menu-toggle"><i class="fa fa-bars" ></i></a>
-            <h1 class="text-center" > logged in..{{ user.username }}</h1>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-white" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
+                    class="fas fa-hospital me-2"></i>Medihub</div>
+            <div class="list-group list-group-flush my-3">
+                <a href="{% url 'admin-dashboard' %}" class="list-group-item list-group-item-action bg-transparent second-text active" id="dash"><i
+                        class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                <a href="{% url 'crud-index' %}" class="list-group-item list-group-item-action bg-transparent second-text " id="dash"><i
+                        class="fas fa-notes-medical me-2"></i>CRUD</a>     
+                
+                
+                <a href="{% url 'manage-appointments-list' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i
+                        class="fas fa-clock me-2"></i>Appointments</a>
+                <a href="{% url 'admin-logout' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                        class="fas fa-power-off me-2"></i>Logout</a>
+               
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+                <div class="d-flex align-items-center justify-content-end">
+                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+                    <h2 class="fs-2 m-2">Dashboard</h2>
+                </div>
+
+                
+                
+            </nav>
+            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+                <div class="d-flex align-items-center justify-items-end">
+                    <i class="fas fa-user" ></i>
+                            <h2 class="fs-4 m-2">  {{user.username}}</h2>
+                </div>
+    
+
+                
+                
+            </nav>
+            
+            <div class="container-fluid px-4 ">
+                <div class="row g-3 my-2 d-flex justify-content-around">
+                    <div class="col-md-3">
+                        <div class="p-3 bg-white shadow d-flex justify-content-around align-items-center rounded">
+                            <div class="d-flex row justify-content-around ">
+                                <h3 class="fs-2 text-center">{{numdoc}}</h3>
+                                <p class="fs-5 text-center">Doctors</p>
+                            </div>
+                            <i class="fas fa-briefcase-medical fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="p-3 bg-white shadow d-flex justify-content-around align-items-center rounded">
+                            <div>
+                                <h3 class="fs-2 text-center">{{numpat}}</h3>
+                                <p class="fs-5 text-center">Patients</p>
+                            </div>
+                            <i
+                                class="fas fa-crutch fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="p-3 bg-white shadow d-flex justify-content-around align-items-center rounded">
+                            <div>
+                                <h3 class="fs-2 text-center">{{numapp}}</h3>
+                                <p class="fs-5 text-center">Appointments</p>
+                            </div>
+                            <i class="fas fa-truck fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+                <div class="row my-5">
+                    <h3 class="fs-4 mb-3">Appointments Today</h3>
+                    <div class="col">
+                        <table class="table bg-white rounded shadow-sm  table-hover">
+                            <thead>
+                                <tr>
+                                   
+                                    <th scope="col">Doctor </th>
+                                    <th scope="col">Patient</th>
+                                    <th scope="col">Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appo in app %}
+                                {% if appo.completed == False %}
+                                <tr>
+
+                                    
+                                    
+                                    <td>{{appo.doctor}}</td>
+                                    <td>{{appo.patient}}</td>
+                                    <td>{{appo.time}}</td></a>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
+    <!-- /#page-content-wrapper -->
+    </div>
+
+   
 {% endblock %}
+

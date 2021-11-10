@@ -10,6 +10,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
+import datetime
+
 
 from .forms import ManageAppointmentForm
 
@@ -23,7 +25,12 @@ def check_admin(user):
 
 @login_required(login_url='admin-login')
 def dashboardView(request):
-	return render(request,'adminapp/dashboard.html')
+    numpat=len(Patient.objects.all())
+    numdoc=len(Doctor.objects.all())
+    numapp=len(Appointment.objects.all().filter(completed=False))
+    app=Appointment.objects.all().filter(date=datetime.datetime.today() )
+    context={'numpat':numpat,'numdoc':numdoc,'numapp':numapp,'app':app,'page':"dash"}
+    return render(request,'adminapp/dashboard.html',context)
 
 def loginView(request):
     error = ""
