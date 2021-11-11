@@ -20,7 +20,7 @@
 </nav>
 
 <div class="container-fluid p-4 mt-3">
-    <div class="p-3 bg-white shadow rounded border border-secondary w-75 mx-auto">
+    <div class="p-3 bg-white shadow rounded border border-secondary w-75 mx-auto my-2">
         <h2>{{patient}}</h2>
         <hr>
         <p>Name: {{patient.first_name}} {{patient.last_name}}</p>
@@ -33,11 +33,45 @@
         <button type="button" class="btn btn-primary "onclick="goBack()">Go Back</button>
     </div>
 
-</div>
+    <div class="p-3 bg-white shadow rounded border border-secondary w-75 mx-auto mt-5">
+        <h2>Appointments</h2>
+        <hr>
+        <table class="table bg-white rounded shadow-sm  table-hover">
+            <thead>
+                <tr>
+                    
+                    <th scope="col">Doctor </th>
+                    <th scope="col">Date, Time</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                <tr>                       
+                    
+                    <td>{{appointment.doctor}}</td>
+                    <td>{{appointment.date}} {{appointment.time}}</td>
+                    <td>
+                        {% if appointment.completed == True %}
+                        Completed
+                        {% elif appointment.confirmed == True %}
+                        Upcoming
+                        {% else %}
+                        Requested
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if appointment.completed == False %}
+                        <a class="btn btn-primary btn-sm"href="{% url 'manage-appointment' appointment.id %}">Manage</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary "onclick="goBack()">Go Back</button>
+    </div>
 
-<script>
-    function goBack() {
-      window.history.back();
-    }
-</script>
+</div>
 {% endblock %}
