@@ -45,6 +45,10 @@ class Patient(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.id}'
 
+    @property
+    def name(self):
+        return f'{self.first_name} {self.last_name}'
+
 class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, null=True, blank=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True)
@@ -56,6 +60,9 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f'{self.doctor} with {self.patient} on {self.date}'
+
+    class Meta:
+        ordering = ['-date', 'time']
 
 class Bill(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.SET_NULL, null=True, blank=True)

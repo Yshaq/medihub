@@ -12,6 +12,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 import datetime
 
+from django.db.models import Q
+
 
 from .forms import ManageAppointmentForm
 
@@ -220,7 +222,21 @@ def deleteDoctorView(request, id):
 
 @login_required(login_url='admin-login')
 def patientListView(request):
-    patientList = Patient.objects.all()
+    # Searching
+    if request.GET.get('patid'):
+        patid = int(request.GET.get('patid'))
+        patientList = Patient.objects.filter(id=patid)
+
+    elif request.GET.get('patname'):
+        patientList = []
+        patname = request.GET.get('patname')
+        for patient in Patient.objects.all():
+            if(patname.lower() in patient.name.lower()):
+                patientList.append(patient)
+    else:
+        patientList = Patient.objects.all()
+
+
     context = {
         'list_of_patients': patientList,
     }
@@ -229,8 +245,10 @@ def patientListView(request):
 @login_required(login_url='admin-login')
 def patientDetailView(request, id):
     patient = get_object_or_404(Patient, pk=id)
+    appointments = patient.appointment_set.all()
     context = {
         'patient': patient,
+        'appointments': appointments,
     }
     return render(request, 'adminapp/patient_detail.html', context)
 

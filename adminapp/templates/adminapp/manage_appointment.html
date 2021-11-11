@@ -22,6 +22,7 @@
 
 <div class="container-fluid p-4 mt-3">
     <div class="p-3 bg-white shadow rounded border border-secondary w-75 mx-auto">
+        <button type="button" class="btn btn-primary "onclick="goBack()">Go Back</button>
         <form class="custom-form" style="margin-top: 20px;" method="post">
             {% csrf_token %}
             <h2 class="text-center">Manage Appointment - {{appointment}}</h2>
