@@ -34,6 +34,31 @@
     </div>
 
     <div class="row my-5">
+        <h3 class="fs-4 mb-3">My Doctors</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Doctor </th>
+                        <th scope="col">Department</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doctor in my_doctors %}
+                    <tr>                       
+                        <td>{{doctor.first_name}} {{doctor.last_name}}</td>
+                        <td>{{doctor.department}}</td>
+                        <td><a href="{% url 'book-appointment' doctor.id %}">Book Appointment</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row my-5">
         <h3 class="fs-4 mb-3">Available Doctors</h3>
         <div class="col">
             <table class="table bg-white rounded shadow-sm  table-hover">

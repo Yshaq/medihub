@@ -94,9 +94,13 @@ def profile(request):
 
 @login_required(login_url='patient-login')
 def doctorListView(request):
+    patient = request.user.patient
     doctorList = Doctor.objects.all()
+    my_doctors = patient.doctor_set.all()
+
     context = {
         'list_of_doctors': doctorList,
+        'my_doctors': my_doctors,
     }
     return render(request, 'patientapp/doctor_list.html', context)
 
