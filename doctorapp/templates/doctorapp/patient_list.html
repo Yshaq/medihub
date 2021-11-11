@@ -1,0 +1,81 @@
+{% extends 'doctorapp/base.html' %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row my-5">
+        <div class="col-10 offset-1 bg-white rounded shadow-sm py-4">
+            <h3 class="fs-4 mb-3">Search</h3>
+            <form action="">
+                <div class="row">
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" placeholder="Name" aria-label="Name" name="patname">
+                    </div>
+                    <div class="col-sm-4">
+                      <input type="number" class="form-control" placeholder="Patient#" aria-label="First name" name="patid">
+                    </div>
+                    <div class="col-sm-2">
+                      <button type="submit" class="btn btn-primary" >Search</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="{% url 'doctor-patient-list' %}"><button type="button" class="btn btn-danger" >Reset</button></a>
+                    </div>
+                  </div>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">List of My Patients</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Patient# </th>
+                        <th scope="col">Name</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in my_patients %}
+                    <tr>                       
+                        
+                        <td>{{patient.id}}</td>
+                        <td>{{patient.first_name}} {{patient.last_name}}</td>
+                        <td><a class="btn btn-primary btn-sm"  href="{% url 'doctor-patient-detail' patient.id %}">View</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">List of Other Patients</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Patient# </th>
+                        <th scope="col">Name</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in other_patients %}
+                    <tr>                       
+                        
+                        <td>{{patient.id}}</td>
+                        <td>{{patient.first_name}} {{patient.last_name}}</td>
+                        <td><a class="btn btn-primary btn-sm"  href="{% url 'doctor-patient-detail' patient.id %}">View</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

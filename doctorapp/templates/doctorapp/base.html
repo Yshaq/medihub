@@ -31,6 +31,9 @@
                 <a href="{% url 'doctor-appointments' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i
                         class="fas fa-clock me-2"></i> Appointments</a>
                 
+                <a href="{% url 'doctor-patient-list' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i
+                        class="fas fa-users me-2"></i> Patients</a>
+
                 <a href="{% url 'doctor-logout' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold "><i
                         class="fas fa-power-off me-2"></i> Logout</a>
                 {% else %}
@@ -88,6 +91,11 @@
         for (var toastEl of toastList) {
             var toastObj = new bootstrap.Toast(toastEl);
             toastObj.show();
+        }
+    </script>
+    <script>
+        function goBack() {
+          window.history.back();
         }
     </script>
 
