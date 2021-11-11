@@ -103,8 +103,9 @@ def manageAppointmentView(request, id):
             if appointment.completed:
                 doctor = appointment.doctor
                 patient = appointment.patient
-                doctor.patients.add(patient)
-                doctor.save()
+                if not doctor.patients.filter(id=patient.id).exists():
+                    doctor.patients.add(patient)
+                    doctor.save()
 
             return redirect('doctor-appointments')
         else:
