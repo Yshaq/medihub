@@ -12,6 +12,8 @@ class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
+
+    patients = models.ManyToManyField('Patient')
     
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
     dob = models.DateField(null=True, blank=True)

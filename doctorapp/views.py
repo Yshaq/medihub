@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User,Group
-from adminapp.views import patientDetailView
 from hospital.models import *
 from django.contrib.auth import authenticate,logout,login
 from django.utils import timezone
@@ -99,6 +98,14 @@ def manageAppointmentView(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Appointment saved')
+
+            # Adding the patient to doctor.patients
+            if appointment.completed:
+                doctor = appointment.doctor
+                patient = appointment.patient
+                doctor.patients.add(patient)
+                doctor.save()
+
             return redirect('doctor-appointments')
         else:
             messages.error(request, 'Invalid form')
@@ -108,3 +115,58 @@ def manageAppointmentView(request, id):
         'form': form
     }
     return render(request, 'doctorapp/manage_appointment.html', context)
+
+def patientListView(request):
+    doctor = request.user.doctor
+    # Searching
+    if request.GET.get('patid'):
+        patid = int(request.GET.get('patid'))
+        patientList = Patient.objects.filter(id=patid)
+
+    elif request.GET.get('patname'):
+        patientList = []
+        patname = request.GET.get('patname')
+        for patient in Patient.objects.all():
+            if(patname.lower() in patient.name.lower()):
+                patientList.append(patient)
+    else:
+        patientList = Patient.objects.all()
+
+
+    my_patients = []
+    other_patients = []
+    for patient in patientList:
+        if patient.doctor_set.filter(id=doctor.id).exists():
+            my_patients.append(patient)
+        else:
+            other_patients.append(patient)
+
+
+    context = {
+        'list_of_patients': patientList,
+        'my_patients': my_patients,
+        'other_patients': other_patients,
+    }
+    return render(request, 'doctorapp/patient_list.html', context)
+
+def patientDetailView(request, id):
+    doctor = request.user.doctor
+    patient = get_object_or_404(Patient, pk=id)
+    appointments = patient.appointment_set.filter(confirmed=True)
+    my_appointments = appointments.filter(doctor=doctor)
+    other_appointments = appointments.exclude(doctor=doctor)
+
+    context = {
+        'patient': patient,
+        'appointments': appointments,
+        'my_appointments': my_appointments,
+        'other_appointments': other_appointments,
+    }
+    return render(request, 'doctorapp/patient_detail.html', context)
+
+def appointmentDetailView(request, id):
+    appointment = get_object_or_404(Appointment, pk=id)
+    context = {
+        'appointment': appointment,
+    }
+    return render(request, 'doctorapp/appointment_detail.html', context)
