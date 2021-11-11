@@ -19,40 +19,59 @@
     
     
 </nav>
+
 <div class="row my-5">
-    <h3 class="fs-4 mb-3 text-center">Requested Appointments</h3>
+    <h3 class="fs-4 mb-3">Upcoming Appointments</h3>
     <div class="col">
         <table class="table bg-white rounded shadow-sm  table-hover">
-            
+            <thead>
+                <tr>
+                    
+                    <th scope="col">Patient </th>
+                    <th scope="col">Time</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
             <tbody>
                 {% for appointment in upcoming_appointments %}
-                <tr>
-                    <td class="text-center">
-                        {{appointment.patient}} on {{appointment.date}} at {{appointment.time}} -  |  <a class="btn btn-primary btn-sm"href="{% url 'doctor-manage-appointment' appointment.id %}">Manage</a>
-            
-                    </td>
-                </tr>{% endfor %}
+                <tr>                       
+                    
+                    <td>{{appointment.patient}}</td>
+                    <td>{{appointment.date}} at {{appointment.time}}</td>
+                    <td><a class="btn btn-primary btn-sm" href="{% url 'doctor-manage-appointment' appointment.id %}">Manage</a></td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
+
 <div class="row my-5">
-    <h3 class="fs-4 mb-3 text-center">Requested Appointments</h3>
+    <h3 class="fs-4 mb-3">Completed Appointments</h3>
     <div class="col">
         <table class="table bg-white rounded shadow-sm  table-hover">
-            
+            <thead>
+                <tr>
+                    
+                    <th scope="col">Patient </th>
+                    <th scope="col">Time</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
             <tbody>
                 {% for appointment in completed_appointments %}
-                <tr>
-                    <td class="text-center">
-                        {{appointment.patient}} on {{appointment.date}} at {{appointment.time}} -  |  <a class="btn btn-primary btn-sm"href="{% url 'doctor-manage-appointment' appointment.id %}">Manage</a>
-            
-                    </td>
-                </tr>{% endfor %}
+                <tr>                       
+                    
+                    <td>{{appointment.patient}}</td>
+                    <td>{{appointment.date}} at {{appointment.time}}</td>
+                    <td><a class="btn btn-primary btn-sm" href="{% url 'doctor-manage-appointment' appointment.id %}">Manage</a></td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
+
 </div>
 
 {% endblock %}

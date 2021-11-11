@@ -1,36 +1,37 @@
 {% extends 'adminapp/crud_index.html' %}
 {% block main %}
-<!-- <h2>List of Patients:</h2>
-<ul>
-    {% for patient in list_of_patients %}
-    <li>{{patient}} : 
-        <a href="{% url 'patient-detail' patient.id %}">View</a> |
-        <a href="{% url 'edit-patient' patient.id %}">Edit</a> |
-        <a href="{% url 'delete-patient' patient.id %}">Delete</a>
-    </li>
-    {% endfor %}
-</ul> -->
 
-<!-- <p><a href="{% url 'create-patient' %}">Create new patient</a></p> -->
-<div class="row my-5">
-    <h3 class="fs-4 mb-3 text-center">List of Patients:</h3>
-    <div class="col">
-        <table class="table bg-white rounded shadow-sm  table-hover">
-            
-            <tbody>{% for patient in list_of_patients %}<tr>
-                <td class="text-center">
-                    {{patient}} : 
-                        <a class="btn btn-primary btn-sm"  href="{% url 'patient-detail' patient.id %}">View</a> 
-                        <a  class="btn btn-secondary btn-sm"  href="{% url 'edit-patient' patient.id %}">Edit</a> 
-                        <a class="btn btn-danger btn-sm"  href="{% url 'delete-patient' patient.id %}">Delete</a>
-                    
-                    
-                </td>
-            </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="container-fluid">
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">List of patients</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Patient# </th>
+                        <th scope="col">Name</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in list_of_patients %}
+                    <tr>                       
+                        
+                        <td>{{patient.id}}</td>
+                        <td>{{patient.first_name}} {{patient.last_name}}</td>
+                        <td><a class="btn btn-primary btn-sm"  href="{% url 'patient-detail' patient.id %}">View</a></td>
+                        <td><a class="btn btn-secondary btn-sm"  href="{% url 'edit-patient' patient.id %}">Edit</a></td>
+                        <td><a class="btn btn-danger btn-sm"  href="{% url 'delete-patient' patient.id %}">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
     <h3 class="fs-4 mb-3 text-center"><a class ="btn btn-primary "style="text-decoration:none !important"href="{% url 'create-patient' %}">Create new patient</a></h3>
 </div>
+
 {% endblock %}

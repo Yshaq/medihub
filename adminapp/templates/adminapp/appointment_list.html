@@ -1,36 +1,38 @@
 {% extends 'adminapp/crud_index.html' %}
 {% block main %}
-<!-- <h2>List of Appointments:</h2>
-<ul>
-    {% for appointment in list_of_appointments %}
-    <li>{{appointment}} : 
-        <a href="{% url 'appointment-detail' appointment.id %}">View</a> |
-        <a href="{% url 'edit-appointment' appointment.id %}">Edit</a> |
-        <a href="{% url 'delete-appointment' appointment.id %}">Delete</a>
-    </li>
-    {% endfor %}
-</ul>
-
-<p><a href="{% url 'create-appointment' %}">Create new Appointment</a></p> -->
-<div class="row my-5">
-    <h3 class="fs-4 mb-3 text-center">List of Appointments:</h3>
-    <div class="col">
-        <table class="table bg-white rounded shadow-sm  table-hover">
-            
-            <tbody>{% for appointment in list_of_appointments %}<tr>
-                <td class="text-center">
-                    {{appointment}} : 
-                    <a class="btn btn-primary btn-sm" href="{% url 'appointment-detail' appointment.id %}">View</a> 
-                    <a class="btn btn-secondary btn-sm" href="{% url 'edit-appointment' appointment.id %}">Edit</a> 
-                    <a class="btn btn-danger btn-sm" href="{% url 'delete-appointment' appointment.id %}">Delete</a>
-                    
-                    
-                </td>
-            </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="container-fluid">
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">List of Appointments</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Doctor</th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Time</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in list_of_appointments %}
+                    <tr>                       
+                        
+                        <td>{{appointment.doctor}}</td>
+                        <td>{{appointment.patient}}</td>
+                        <td>{{appointment.date}} {{appointment.time}}</td>
+                        <td><a class="btn btn-primary btn-sm"  href="{% url 'appointment-detail' appointment.id %}">View</a></td>
+                        <td><a class="btn btn-secondary btn-sm"  href="{% url 'edit-appointment' appointment.id %}">Edit</a></td>
+                        <td><a class="btn btn-danger btn-sm"  href="{% url 'delete-appointment' appointment.id %}">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <h3 class="fs-4 mb-3 text-center"><a class="btn btn-primary"style="text-decoration:none !important"href="{% url 'create-appointment' %}">Create new appointment</a></h3>
+    <h3 class="fs-4 mb-3 text-center"><a class ="btn btn-primary "style="text-decoration:none !important"href="{% url 'create-appointment' %}">Create new appointment</a></h3>
 </div>
+
 {% endblock %}

@@ -1,9 +1,55 @@
-{% extends 'adminapp/crud_index.html' %}
-{% block main %}
-<form action="" class="text-center"method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Submit">
-</form>
+{% extends 'adminapp/base.html' %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+    <div class="d-flex align-items-center justify-content-end">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-2">CRUD</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                
+                    <i class="fas fa-user me-2"></i>{{user.username}}
+                
+                
+            </li>
+        </ul>
+    </div>   
+    
+    
+</nav>
+<div class="container-fluid p-4">
+    <div class="row register-form bg-white shadow rounded w-75 mx-auto py-5 border border-secondary">
+        <form class="custom-form" style="margin-top: 20px;" method="post">
+
+            <button type="button" class="offset-md-2 btn btn-primary "onclick="goBack()">Go Back</button>
+            <hr>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-row form-group col-md-8 offset-md-2">
+                <div class="col-sm-10 label-column">
+                    <label class="col-form-label" >{{field.label}} </label>
+                </div>
+                <div class="col-sm-10 input-column">
+                    {{field}}
+                </div>
+            </div>
+            <br>
+            {% endfor %}
+            <br>
+            <div class="offset-md-2">
+                <input class="btn btn-primary" type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function goBack() {
+      window.history.back();
+    }
+</script>
+
 
 {% endblock %}
