@@ -1,26 +1,40 @@
 {% extends 'adminapp/crud_index.html' %}
 {% block main %}
-<div class="row my-5">
-    <h3 class="fs-4 mb-3 text-center">List of Doctors:</h3>
-    <div class="col">
-        <table class="table bg-white rounded shadow-sm  table-hover">
-            
-            <tbody>{% for doctor in list_of_doctors %}<tr>
-                <td class="text-center">
-                    {{doctor}} : 
-                        <a class="btn btn-primary btn-sm"  href="{% url 'doctor-detail' doctor.id %}">View</a> |
-                        <a class="btn btn-secondary btn-sm"  href="{% url 'edit-doctor' doctor.id %}">Edit</a> |
-                        <a class="btn btn-danger btn-sm"  href="{% url 'delete-doctor' doctor.id %}">Delete</a>
-                    
-                    
-                </td>
-            </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+<div class="container-fluid">
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">List of Doctors</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Doctor </th>
+                        <th scope="col">Department</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doctor in list_of_doctors %}
+                    <tr>                       
+                        
+                        <td>{{doctor.first_name}} {{doctor.last_name}}</td>
+                        <td>{{doctor.department}}</td>
+                        <td><a class="btn btn-primary btn-sm"  href="{% url 'doctor-detail' doctor.id %}">View</a></td>
+                        <td><a class="btn btn-secondary btn-sm"  href="{% url 'edit-doctor' doctor.id %}">Edit</a></td>
+                        <td><a class="btn btn-danger btn-sm"  href="{% url 'delete-doctor' doctor.id %}">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
     <h3 class="fs-4 mb-3 text-center"><a class ="btn btn-primary "style="text-decoration:none !important"href="{% url 'create-doctor' %}">Create new doctor</a></h3>
 </div>
+
+
 
 
 {% endblock %}

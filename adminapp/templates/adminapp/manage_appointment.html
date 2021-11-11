@@ -1,29 +1,53 @@
 {% extends 'adminapp/base.html' %}
 {% block content %}
 
-<div class="login-dark" >
-    <div class="col-md-8 offset-md-2">
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+    <div class="d-flex align-items-center justify-content-end">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-2">CRUD</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                
+                    <i class="fas fa-user me-2"></i>{{user.username}}
+                
+                
+            </li>
+        </ul>
+    </div>   
+    
+    
+</nav>
+
+<div class="container-fluid p-4 mt-3">
+    <div class="p-3 bg-white shadow rounded border border-secondary w-75 mx-auto">
         <form class="custom-form" style="margin-top: 20px;" method="post">
             {% csrf_token %}
-            <h2>Manage Appointment - {{appointment}}</h2>
-            <hr>
-            <p>Doctor: {{appointment.doctor}}</p>
-            <p>Patient: {{appointment.patient}}</p>
-            <hr>
+            <h2 class="text-center">Manage Appointment - {{appointment}}</h2>
+            <div class="offset-sm-1 col-sm-10">
+                <hr>
+                <p>Doctor: {{appointment.doctor}}</p>
+                <p>Patient: {{appointment.patient}}</p>
+                <hr>
+            </div>
             {% for field in form %}
             <div class="form-row form-group">
-                <div class="col-sm-4 label-column">
+                <div class="col-sm-4 offset-sm-1 label-column">
                     <label class="col-form-label">{{field.label}} </label>
                 </div>
-                <div class="col-sm-6 input-column">
+                <div class="col-sm-6 offset-sm-1 input-column">
                     {{field}}
                 </div>
             </div>
+            <br>
             {% endfor %}
-
-            <div class="form-group"><button class="btn btn-primary" type="submit">Submit</button></div>
+            <br>
+            <div class="form-group offset-sm-1"><button class="btn btn-primary" type="submit">Submit</button></div>
         </form>
+        <br>
     </div>
+
 </div>
 
 

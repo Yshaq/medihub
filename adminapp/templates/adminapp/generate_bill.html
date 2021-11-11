@@ -3,41 +3,43 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'styles/billgen.css' %}">
 
-<div class="billgencontainer">
-    <h3>Generate Bill</h3>
-    <form action="" id="generatebillform" method="POST">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="patientNumberInput" class="form-label">Patient Id:</label>
-            <input type="number" class="form-control" id="patientNumberInput" placeholder="12345" name="patno" required>
-        </div>
-        <h4>Items</h4>
-        <div id="billItems">
-        <div class="billItem">
-            <div class="row">
-                <div class="mb-3 col-sm-6">
-                    <label class="form-label">Select Item 1</label>
-                    <select class="form-select" name="item1" aria-label="Default select example" required>
-                        {% for item in bill_items %}
-                        <option value="{{item.id}}">{{item.name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="mb-3 col-sm-6">
-                    <label class="form-label">Qty:</label>
-                    <input type="number" class="form-control" name="qty1" value=1 required>
+<div class="container-fluid p-4 mt-3">
+    <div class="p-3 bg-white shadow rounded border border-secondary w-75 mx-auto">
+        <h3>Generate Bill</h3>
+        <form action="" id="generatebillform" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="patientNumberInput" class="form-label">Patient Id:</label>
+                <input type="number" class="form-control" id="patientNumberInput" placeholder="12345" name="patno" required>
+            </div>
+            <h4>Items</h4>
+            <div id="billItems">
+            <div class="billItem">
+                <div class="row">
+                    <div class="mb-3 col-sm-6">
+                        <label class="form-label">Select Item 1</label>
+                        <select class="form-select" name="item1" aria-label="Default select example" required>
+                            {% for item in bill_items %}
+                            <option value="{{item.id}}">{{item.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3 col-sm-6">
+                        <label class="form-label">Qty:</label>
+                        <input type="number" class="form-control" name="qty1" value=1 required>
+                    </div>
                 </div>
             </div>
-        </div>
-        </div>
+            </div>
 
 
-        <button class="btn btn-success" type="button" id="addfieldbutton">Add Field</button>
-        <button class="btn btn-danger" type="button" id="removefieldbutton">Remove Field</button>
-        <hr>
-        <button class="btn btn-primary" type="submit">Create</button>
-    </form>
+            <button class="btn btn-success" type="button" id="addfieldbutton">Add Field</button>
+            <button class="btn btn-danger" type="button" id="removefieldbutton">Remove Field</button>
+            <hr>
+            <button class="btn btn-primary" type="submit">Create</button>
+        </form>
     </div>
+</div>
 
 <!-- ===================SCRIPT============================= -->
 
