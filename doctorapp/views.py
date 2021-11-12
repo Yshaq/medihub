@@ -10,6 +10,11 @@ from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import login, authenticate, logout
 import datetime
+from django.contrib.auth.decorators import login_required, user_passes_test, user_passes_test
+
+def is_doctor(user):
+    return user.groups.filter(name='Doctors').exists()
+
 # Create your views here.
 def doctorRegistration(request):
     error = ""
@@ -42,6 +47,8 @@ def doctorRegistration(request):
     context = {'error' : error}
     return render(request, 'doctorapp/doctor_registration.html', context)
 
+@login_required(login_url='doctor-login')
+@user_passes_test(is_doctor, login_url='doctor-login')
 def dashboardView(request):
     doctor = request.user.doctor
     today=doctor.appointment_set.filter(confirmed=True).filter(date=datetime.datetime.today())
@@ -77,6 +84,8 @@ def logoutView(request):
     messages.success(request, "Logged Out")
     return redirect('index')
 
+@login_required(login_url='doctor-login')
+@user_passes_test(is_doctor, login_url='doctor-login')
 def myAppointmentsView(request):
     doctor = request.user.doctor
     upcoming_appointments = doctor.appointment_set.filter(confirmed=True).filter(completed=False)
@@ -89,6 +98,8 @@ def myAppointmentsView(request):
     }
     return render(request, 'doctorapp/my_appointments.html', context)
 
+@login_required(login_url='doctor-login')
+@user_passes_test(is_doctor, login_url='doctor-login')
 def manageAppointmentView(request, id):
     appointment = get_object_or_404(Appointment, pk=id)
     form = ManageAppointmentForm(instance=appointment)
@@ -117,6 +128,8 @@ def manageAppointmentView(request, id):
     }
     return render(request, 'doctorapp/manage_appointment.html', context)
 
+@login_required(login_url='doctor-login')
+@user_passes_test(is_doctor, login_url='doctor-login')
 def patientListView(request):
     doctor = request.user.doctor
     # Searching
@@ -150,6 +163,8 @@ def patientListView(request):
     }
     return render(request, 'doctorapp/patient_list.html', context)
 
+@login_required(login_url='doctor-login')
+@user_passes_test(is_doctor, login_url='doctor-login')
 def patientDetailView(request, id):
     doctor = request.user.doctor
     patient = get_object_or_404(Patient, pk=id)
@@ -165,6 +180,8 @@ def patientDetailView(request, id):
     }
     return render(request, 'doctorapp/patient_detail.html', context)
 
+@login_required(login_url='doctor-login')
+@user_passes_test(is_doctor, login_url='doctor-login')
 def appointmentDetailView(request, id):
     appointment = get_object_or_404(Appointment, pk=id)
     context = {

@@ -19,13 +19,13 @@ from .forms import ManageAppointmentForm
 
 # Create your views here.
 #===============UTILITY==================
-def check_admin(user):
-    if not user.groups.filter(name = 'Administrator').exists():
-        return redirect('index')
+def is_admin(user):
+    return user.groups.filter(name = 'Administrators').exists()
 
 #=========================================
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def dashboardView(request):
     numpat=len(Patient.objects.all())
     numdoc=len(Doctor.objects.all())
@@ -64,6 +64,8 @@ def logoutView(request):
     messages.info(request, "Logged Out")
     return redirect('admin-login')
 
+@login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def manageAppointmentsList(request):
     requested_appointments = Appointment.objects.filter(completed=False).filter(confirmed=False)
     confirmed_appointments = Appointment.objects.filter(completed=False).filter(confirmed=True)
@@ -73,6 +75,8 @@ def manageAppointmentsList(request):
     }
     return render(request, 'adminapp/manage_appointments_list.html', context)
 
+@login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def manageAppointment(request, id):
     appointment = get_object_or_404(Appointment, pk=id)
     form = ManageAppointmentForm(instance=appointment)
@@ -90,9 +94,13 @@ def manageAppointment(request, id):
     }
     return render(request, 'adminapp/manage_appointment.html', context)
 
+@login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def crudIndex(request):
     return render(request, 'adminapp/crud_index.html')
 
+@login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def billListView(request):
     unpaid_bills = Bill.objects.filter(paid=False)
     paid_bills = Bill.objects.filter(paid=True)
@@ -102,6 +110,8 @@ def billListView(request):
     }
     return render(request, 'adminapp/bill_list.html', context)
 
+@login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def generateBillView(request):
     bill_items = Item.objects.all()
 
@@ -130,6 +140,8 @@ def generateBillView(request):
     }
     return render(request, 'adminapp/generate_bill.html', context)
 
+@login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def billPdfView(request, id):
     bill = Bill.objects.get(pk=id)
     itemmap = bill.billitemmap_set.all()
@@ -139,7 +151,8 @@ def billPdfView(request, id):
     }
     return render(request, 'adminapp/billpdf.html', context)
 
-
+@login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def billSetPaid(request, id):
     bill = get_object_or_404(Bill, pk = id)
     bill.paid = True
@@ -151,6 +164,7 @@ def billSetPaid(request, id):
 #           DOCTOR MODEL CRUD
 #=================================================
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def doctorListView(request):
     doctorList = Doctor.objects.all()
     context = {
@@ -159,6 +173,7 @@ def doctorListView(request):
     return render(request, 'adminapp/doctor_list.html', context)
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def doctorDetailView(request, id):
     doctor = get_object_or_404(Doctor, pk=id)
     context = {
@@ -167,6 +182,7 @@ def doctorDetailView(request, id):
     return render(request, 'adminapp/doctor_detail.html', context)
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def createDoctorView(request):
     form = DoctorForm()
     if (request.method == 'POST'):
@@ -184,6 +200,7 @@ def createDoctorView(request):
     return render(request, 'adminapp/model_form.html', context)
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def editDoctorView(request, id):
     doctor = get_object_or_404(Doctor, pk=id)
     form = DoctorForm(instance=doctor)
@@ -204,6 +221,7 @@ def editDoctorView(request, id):
     return render(request, 'adminapp/model_form.html', context)
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def deleteDoctorView(request, id):
     doctor = get_object_or_404(Doctor, pk=id)
     if(request.method == 'POST'):
@@ -221,6 +239,7 @@ def deleteDoctorView(request, id):
 #=================================================
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def patientListView(request):
     # Searching
     if request.GET.get('patid'):
@@ -243,6 +262,7 @@ def patientListView(request):
     return render(request, 'adminapp/patient_list.html', context)
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def patientDetailView(request, id):
     patient = get_object_or_404(Patient, pk=id)
     appointments = patient.appointment_set.all()
@@ -253,6 +273,7 @@ def patientDetailView(request, id):
     return render(request, 'adminapp/patient_detail.html', context)
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def createPatientView(request):
     form = PatientForm()
     if (request.method == 'POST'):
@@ -270,6 +291,7 @@ def createPatientView(request):
     return render(request, 'adminapp/model_form.html', context)
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def editPatientView(request, id):
     patient = get_object_or_404(Patient, pk=id)
     form = PatientForm(instance=patient)
@@ -290,6 +312,7 @@ def editPatientView(request, id):
     return render(request, 'adminapp/model_form.html', context)
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def deletePatientView(request, id):
     patient = get_object_or_404(Patient, pk=id)
     if(request.method == 'POST'):
@@ -307,6 +330,7 @@ def deletePatientView(request, id):
 #=================================================
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def appointmentListView(request):
     appointmentList = Appointment.objects.all()
     context = {
@@ -315,6 +339,7 @@ def appointmentListView(request):
     return render(request, 'adminapp/appointment_list.html', context)
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def appointmentDetailView(request, id):
     appointment = get_object_or_404(Appointment, pk=id)
     context = {
@@ -323,6 +348,7 @@ def appointmentDetailView(request, id):
     return render(request, 'adminapp/appointment_detail.html', context)
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def createAppointmentView(request):
     form = AppointmentForm()
     if (request.method == 'POST'):
@@ -340,6 +366,7 @@ def createAppointmentView(request):
     return render(request, 'adminapp/model_form.html', context)
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def editAppointmentView(request, id):
     appointment = get_object_or_404(Appointment, pk=id)
     form = AppointmentForm(instance=appointment)
@@ -360,6 +387,7 @@ def editAppointmentView(request, id):
     return render(request, 'adminapp/model_form.html', context)
 
 @login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
 def deleteAppointmentView(request, id):
     appointment = get_object_or_404(Appointment, pk=id)
     if(request.method == 'POST'):

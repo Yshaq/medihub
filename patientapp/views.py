@@ -9,7 +9,10 @@ from hospital.forms import DoctorForm, PatientForm, AppointmentForm
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+def is_patient(user):
+    return user.groups.filter(name = 'Patients').exists()
 
 # Create your views here.
 def loginView(request):
@@ -41,6 +44,8 @@ def logoutView(request):
     messages.success(request, "Logged Out")
     return redirect('index')
 
+@login_required(login_url='patient-login')
+@user_passes_test(is_patient, login_url='patient-login')
 def dashboardView(request):
     patient = request.user.patient
     no_confirmed = patient.appointment_set.filter(completed=False).filter(confirmed=True).count()
@@ -83,6 +88,8 @@ def patientRegistration(request):
     context = {}
     return render(request,'patientapp/patientregistration.html',context)
 
+@login_required(login_url='patient-login')
+@user_passes_test(is_patient, login_url='patient-login')
 def profile(request):
     if not request.user.is_active:
         return redirect('login_page')
@@ -93,6 +100,7 @@ def profile(request):
     return render(request, 'patientapp/profile.html', context)
 
 @login_required(login_url='patient-login')
+@user_passes_test(is_patient, login_url='patient-login')
 def doctorListView(request):
     patient = request.user.patient
     doctorList = Doctor.objects.all()
@@ -104,6 +112,8 @@ def doctorListView(request):
     }
     return render(request, 'patientapp/doctor_list.html', context)
 
+@login_required(login_url='patient-login')
+@user_passes_test(is_patient, login_url='patient-login')
 def bookappointment(request,id):
     patient = get_object_or_404(Patient, user=request.user)
     doctor=get_object_or_404(Doctor,pk=id)
@@ -120,6 +130,8 @@ def bookappointment(request,id):
     }
     return render(request, 'patientapp/appointments.html', context)
 
+@login_required(login_url='patient-login')
+@user_passes_test(is_patient, login_url='patient-login')
 def myappointments(request):
     patient = get_object_or_404(Patient, user=request.user)
     appointments=Appointment.objects.all().filter(patient=patient)
@@ -134,6 +146,8 @@ def myappointments(request):
     }
     return render(request,'patientapp/myappointments.html',context)
 
+@login_required(login_url='patient-login')
+@user_passes_test(is_patient, login_url='patient-login')
 def myappointmentdetails(request,id):
     appointment =get_object_or_404(Appointment, pk=id)
     context={
@@ -141,6 +155,8 @@ def myappointmentdetails(request,id):
     }
     return render(request,'patientapp/myappointmentdetails.html',context)
 
+@login_required(login_url='patient-login')
+@user_passes_test(is_patient, login_url='patient-login')
 def appointmentCancelView(request, id):
     appointment = get_object_or_404(Appointment, pk=id, patient=request.user.patient)
 
@@ -154,6 +170,8 @@ def appointmentCancelView(request, id):
     }
     return render(request, 'patientapp/cancelappointment.html', context)
 
+@login_required(login_url='patient-login')
+@user_passes_test(is_patient, login_url='patient-login')
 def billPdfView(request, id):
     bill = Bill.objects.get(pk=id)
     itemmap = bill.billitemmap_set.all()
@@ -163,6 +181,8 @@ def billPdfView(request, id):
     }
     return render(request, 'patientapp/billpdf.html', context)
 
+@login_required(login_url='patient-login')
+@user_passes_test(is_patient, login_url='patient-login')
 def billListView(request):
     patient = get_object_or_404(Patient, user=request.user)
     my_bills = patient.bill_set.all()
