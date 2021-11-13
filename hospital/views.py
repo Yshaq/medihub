@@ -17,7 +17,13 @@ def landingPageView(request):
 	return redirect('index')
 
 def indexView(request):
-	return render(request, 'hospital/index.html')
+    patient_count = Patient.objects.all().count()
+    appointment_count = Appointment.objects.all().count()
+    context = {
+        'patient_count': patient_count,
+        'appointment_count': appointment_count,
+    }
+    return render(request, 'hospital/index.html', context)
 
 def logoutView(request):
     logout(request)
