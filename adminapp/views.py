@@ -189,6 +189,10 @@ def createDoctorView(request):
         form = DoctorForm(request.POST)
         if(form.is_valid()):
             form.save()
+            doctor = form.instance
+            doc_group = Group.objects.get_or_create(name='Doctors')[0]
+            doc_group.user_set.add(doctor.user)
+            doctor.user.save()
             messages.success(request, 'Data saved')
             return redirect('doctor-list')
         else:
@@ -280,6 +284,10 @@ def createPatientView(request):
         form = PatientForm(request.POST)
         if(form.is_valid()):
             form.save()
+            patient = form.instance
+            pat_group = Group.objects.get_or_create(name='Patients')[0]
+            pat_group.user_set.add(patient.user)
+            patient.user.save()
             messages.success(request, 'Data saved')
             return redirect('patient-list')
         else:

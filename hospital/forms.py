@@ -7,11 +7,17 @@ class DoctorForm(ModelForm):
     class Meta:
         model = Doctor
         fields = '__all__'
+        widgets = {
+            'dob': widgets.DateInput(attrs={'type': 'date'}),
+        }
 
 class PatientForm(ModelForm):
     class Meta:
         model = Patient
         fields = '__all__'
+        widgets = {
+            'dob': widgets.DateInput(attrs={'type': 'date'}),
+        }
 
 class AppointmentForm(ModelForm):
     class Meta:
