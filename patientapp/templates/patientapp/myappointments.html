@@ -77,8 +77,8 @@
                         <td>{{appo.patient.first_name}} {{appo.patient.last_name}}</td>
                         <td>{{appo.date}}</td>
                         <td>{{appo.time}}</td>
-                        <td><a href="{% url 'my_appointment_detail' appo.id %}">View</a></td>
-                        <td><a class="text-danger" href="{% url 'patient-cancel-appointment' appo.id %}">Cancel</a></td>
+                        <td><a href="{% url 'my_appointment_detail' appo.id %}" class="btn btn-primary btn-sm">View</a></td>
+                        <td><a class="btn btn-danger btn-sm" href="{% url 'patient-cancel-appointment' appo.id %}">Cancel</a></td>
                     </tr>
                     {% endif %}
                     {% endfor %}
@@ -109,8 +109,8 @@
                         <td>{{appo.doctor}}</td>
                         <td>{{appo.patient.first_name}} {{appo.patient.last_name}}</td>
                         <td>{{appo.date}}</td>
-                        <td><a href="{% url 'my_appointment_detail' appo.id %}">View</a></td>
-                        <td><a class="text-danger" href="{% url 'patient-cancel-appointment' appo.id %}">Cancel</a></td>
+                        <td><a href="{% url 'my_appointment_detail' appo.id %}" class="btn btn-primary btn-sm">View</a></td>
+                        <td><a href="{% url 'patient-cancel-appointment' appo.id %}" class="btn btn-danger btn-sm">Cancel</a></td>
                     </tr>
                     {% endif %}
                     {% endfor %}
@@ -142,7 +142,7 @@
                         <td>{{appo.patient.first_name}} {{appo.patient.last_name}}</td>
                         <td>{{appo.date}}</td>
                         <td>{{appo.time}}</td>
-                        <td><a href="{% url 'my_appointment_detail' appo.id %}">View</a></td>
+                        <td><a href="{% url 'my_appointment_detail' appo.id %}" class="btn btn-primary btn-sm">View</a></td>
                     </tr>
                     {% endif %}
                     {% endfor %}

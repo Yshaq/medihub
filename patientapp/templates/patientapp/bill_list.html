@@ -40,8 +40,8 @@
                             
                             <td>{{bill.id}}</td>
                             <td>{{bill.total}}</td>
-                            <td>{{bill.date.date}}</td>
-                            <td><a href="{% url 'patient-bill' bill.id %} %" target="_blank">View</a></td>
+                            <td>{{bill.date}}</td>
+                            <td><a href="{% url 'patient-bill' bill.id %}" target="_blank" class="btn btn-primary btn-sm">View</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -69,7 +69,7 @@
                             <td>{{bill.id}}</td>
                             <td>{{bill.total}}</td>
                             <td>{{bill.date}}</td>
-                            <td><a href="{% url 'patient-bill' bill.id %}" target="_blank">View</a></td>
+                            <td><a href="{% url 'patient-bill' bill.id %}" target="_blank" class="btn btn-primary btn-sm">View</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
