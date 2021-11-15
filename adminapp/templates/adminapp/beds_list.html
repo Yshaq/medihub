@@ -1,0 +1,144 @@
+{% extends 'adminapp/base.html' %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+    <div class="d-flex align-items-center justify-content-end">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-2">Beds</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                
+                    <i class="fas fa-user me-2"></i>{{user.username}}
+                
+                
+            </li>
+        </ul>
+    </div>   
+    
+    
+</nav>
+
+            
+<div class="container-fluid px-4 ">
+    <div class="row g-3 my-2 d-flex justify-content-around">
+        <div class="col-md-4">
+            <div class="p-3 bg-white shadow d-flex justify-content-around align-items-center rounded">
+                <div class="d-flex row justify-content-around ">
+                    <h3 class="fs-2 text-center">{{free_no}}</h3>
+                    <p class="fs-5 text-center">Beds Free</p>
+                </div>
+                <i class="fas fa-user-md fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-3 bg-white shadow d-flex justify-content-around align-items-center rounded">
+                <div>
+                    <h3 class="fs-2 text-center">{{occupied_no}}</h3>
+                    <p class="fs-5 text-center">Beds Occupied</p>
+                </div>
+                <i
+                    class="fas fa-users fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">Free Beds</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Bed# </th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Rate</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bed in free_beds %}
+                    <tr>
+                        <td>{{bed.id}}</td>
+                        <td>{{bed.type}}</td>
+                        <td>Rs.{{bed.rate}}/day</td>
+                        <td><a href="{% url 'bed-detail' bed.id %}" class="btn btn-sm btn-primary">View</a></td>
+                        <td><a href="{% url 'bed-allot' bed.id %}" class="btn btn-success btn-sm">Allot</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">Occupied</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Bed# </th>
+                        <th scope="col">Rate</th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Admitted On</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bed in occupied_beds %}
+                    <tr>
+                        <td>{{bed.id}}</td>
+                        <td>{{bed.type}}, Rs.{{bed.rate}}/day</td>
+                        <td>{{bed.currentInstance.patient}}</td>
+                        <td>{{bed.currentInstance.admitted_on}}</td>
+                        <td><a href="{% url 'bed-detail' bed.id %}" class="btn btn-sm btn-primary">View</a></td>
+                        <td><a href="{% url 'bed-discharge' bed.id %}" class="btn btn-success btn-sm">Discharge</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+<!-- 
+    <div class="row my-5">
+        <h3 class="fs-4 mb-3">Appointments Today</h3>
+        <div class="col">
+            <table class="table bg-white rounded shadow-sm  table-hover">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Doctor </th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appo in app %}
+                    {% if appo.completed == False %}
+                    <tr>
+
+                        
+                        
+                        <td>{{appo.doctor}}</td>
+                        <td>{{appo.patient}}</td>
+                        <td>{{appo.time}}</td></a>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div> 
+-->
+
+</div>
+   
+{% endblock %}

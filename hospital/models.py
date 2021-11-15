@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.deletion import SET_NULL
 
 # Create your models here.
 class Doctor(models.Model):
@@ -43,6 +44,8 @@ class Patient(models.Model):
     phone = models.CharField(max_length=10, null=True, blank=True)
     address = models.TextField(max_length=400, null=True, blank=True)
     email = models.CharField(max_length=100, null=True, blank=True)
+
+    admitted = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.id}'
@@ -93,3 +96,29 @@ class BillItemMap(models.Model):
     @property
     def subtotal(self):
         return (self.item.price * self.qty)
+
+
+class Bed(models.Model):
+    type = models.CharField(max_length=20, default='normal')
+    rate = models.IntegerField(default=500)
+    occupied = models.BooleanField(default=False)
+
+    @property
+    def currentInstance(self):
+        return self.bedinstance_set.get(discharged=False)
+
+    def __str__(self):
+        return f"Bed #{self.id}"
+
+class BedInstance(models.Model):
+    bed = models.ForeignKey(Bed, on_delete=SET_NULL, null=True, blank=True)
+    patient = models.ForeignKey(Patient, on_delete=SET_NULL, null=True, blank=True)
+    admitted_on = models.DateTimeField(auto_now_add=True)
+    discharged_on = models.DateTimeField(null=True, blank=True)
+    discharged = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-admitted_on']
+
+    def __str__(self):
+        return f"{self.patient} in {self.bed}"

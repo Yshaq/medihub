@@ -1,0 +1,45 @@
+{% extends 'adminapp/base.html' %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+    <div class="d-flex align-items-center justify-content-end">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-2">Bed</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                
+                    <i class="fas fa-user me-2"></i>{{user.username}}
+                
+                
+            </li>
+        </ul>
+    </div>   
+    
+    
+</nav>
+
+<div class="container-fluid p-4 mt-3">
+    <div class="p-3 bg-white shadow rounded border border-secondary w-75 mx-auto my-2">
+        <h2>Alloting {{bed}}</h2>
+        <hr>
+        <p>BED#: {{bed.id}}</p>
+        <p>Type: {{bed.type}}</p>
+        <p>Rate: Rs.{{bed.rate}} /day</p>
+        <p>Current status: Free</p>
+        <hr>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Patient Number</label>
+                <input type="number" name="patno" class="form-control" placeholder="Patient Number" required>
+            </div>
+            <button type="submit" class="btn btn-success">Alott</button>
+        </form>
+        <hr>
+        <button type="button" class="btn btn-primary "onclick="goBack()">Go Back</button>
+    </div>
+
+
+</div>
+{% endblock %}
