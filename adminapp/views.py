@@ -161,6 +161,99 @@ def billSetPaid(request, id):
     return redirect('admin-bills')
 
 #=================================================
+#           BED MANAGEMENT
+#=================================================
+
+@login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
+def bedManagementList(request):
+
+    occupied_no = Bed.objects.filter(occupied=True).count()
+    occupied_beds = Bed.objects.filter(occupied=True)
+
+    free_no = Bed.objects.filter(occupied=False).count()
+    free_beds = Bed.objects.filter(occupied=False)
+
+    context = {
+        'occupied_no': occupied_no,
+        'occupied_beds': occupied_beds,
+
+        'free_no': free_no,
+        'free_beds': free_beds,
+    }
+
+    return render(request, 'adminapp/beds_list.html', context)
+
+@login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
+def bedDetail(request, id):
+    bed = get_object_or_404(Bed, pk=id)
+    bedInstances = bed.bedinstance_set.all()
+    context = {
+        'bed': bed,
+        'bedInstances': bedInstances,
+    }
+    return render(request, 'adminapp/bed_detail.html', context)
+
+@login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
+def bedAllot(request, id):
+    bed = get_object_or_404(Bed, pk=id)
+    if bed.occupied:
+        messages.error(request, 'Bed already occupied')
+        return redirect('bed-management-list')
+
+    if request.method == 'POST':
+        try:
+            patient = Patient.objects.get(id=request.POST['patno'])
+        except:
+            messages.error(request, 'No such patient exists')
+        else:
+            if patient.admitted:
+                messages.error(request, 'patient already admitted in other bed')
+                return redirect('bed-management-list')
+
+            BedInstance.objects.create(bed=bed, patient=patient)
+            bed.occupied = True
+            bed.save()
+            patient.admitted = True
+            patient.save()
+
+            messages.success(request, "Bed Allotted")
+            return redirect('bed-management-list')
+            
+    context = {
+        'bed': bed,
+    }
+    return render(request, 'adminapp/bed_allot.html', context)
+
+@login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
+def bedDischarge(request, id):
+    bed = get_object_or_404(Bed, pk=id)
+    currentInstance = bed.currentInstance
+    patient = currentInstance.patient
+    if not bed.occupied:
+        messages.error(request, 'Bed not occupied')
+        return redirect('bed-management-list')
+
+    if request.method == 'POST':
+        bed.occupied = False
+        bed.save()
+        currentInstance.discharged = True
+        currentInstance.discharged_on = datetime.datetime.now()
+        currentInstance.save()
+        patient.admitted = False
+        patient.save()
+        messages.success(request, 'Patient discharged from bed')
+        return redirect('bed-management-list')
+
+    context = {
+        'bed': bed,
+    }
+    return render(request, 'adminapp/bed_discharge.html', context)
+
+#=================================================
 #           DOCTOR MODEL CRUD
 #=================================================
 @login_required(login_url='admin-login')
@@ -291,9 +384,11 @@ def patientListView(request):
 def patientDetailView(request, id):
     patient = get_object_or_404(Patient, pk=id)
     appointments = patient.appointment_set.all()
+    bedInstances = patient.bedinstance_set.all()
     context = {
         'patient': patient,
         'appointments': appointments,
+        'bedInstances': bedInstances,
     }
     return render(request, 'adminapp/patient_detail.html', context)
 

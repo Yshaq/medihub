@@ -16,6 +16,11 @@ urlpatterns = [
     path('bills/<int:id>', views.billPdfView, name='admin-bill'),
     path('bills/<int:id>/setpay', views.billSetPaid, name='bill-set-paid'),
 
+    path('beds/', views.bedManagementList, name='bed-management-list'),
+    path('beds/<int:id>', views.bedDetail, name='bed-detail'),
+    path('beds/<int:id>/allot', views.bedAllot, name='bed-allot'),
+    path('beds/<int:id>/discharge', views.bedDischarge, name='bed-discharge'),
+
     path('crud/', views.crudIndex, name='crud-index'),
 
     path('crud/doctors/', views.doctorListView, name='doctor-list'),

@@ -1,0 +1,78 @@
+{% extends 'adminapp/base.html' %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent py-1 px-4">
+    <div class="d-flex align-items-center justify-content-end">
+        <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+        <h2 class="fs-2 m-2">Bed</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                
+                    <i class="fas fa-user me-2"></i>{{user.username}}
+                
+                
+            </li>
+        </ul>
+    </div>   
+    
+    
+</nav>
+
+<div class="container-fluid p-4 mt-3">
+    <div class="p-3 bg-white shadow rounded border border-secondary w-75 mx-auto my-2">
+        <h2>{{bed}}</h2>
+        <hr>
+        <p>BED#: {{bed.id}}</p>
+        <p>Type: {{bed.type}}</p>
+        <p>Rate: Rs.{{bed.rate}} /day</p>
+        <p>Current status: 
+            {% if bed.occupied %}
+            Occupied
+            {% else %}
+            Free
+            {% endif %}
+        </p>
+        <hr>
+        {% if not bed.occupied %}
+        <p>Allot this bed?</p>
+        <p><a href="{% url 'bed-allot' bed.id %}" class="btn btn-success">Allot</a></p>
+        {% else %}
+        <h3>Current Occupant Details</h3>
+        <p>Patient: {{bed.currentInstance.patient}}</p>
+        <p>Admitted On: {{bed.currentInstance.admitted_on}}</p>
+        <p>Discharge this patient?</p>
+        <p><a href="{% url 'bed-discharge' bed.id %}" class="btn btn-success" >Discharge</a></p>
+        {% endif %}
+        <hr>
+        <button type="button" class="btn btn-primary "onclick="goBack()">Go Back</button>
+    </div>
+
+    <div class="p-3 bg-white shadow rounded border border-secondary w-75 mx-auto mt-5">
+        <h2>Bed History</h2>
+        <hr>
+        <table class="table bg-white rounded shadow-sm  table-hover">
+            <thead>
+                <tr>
+                    
+                    <th scope="col">Patient </th>
+                    <th scope="col">Admitted On</th>
+                    <th scope="col">Discharged On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bedInstance in bedInstances %}
+                <tr>                       
+                    
+                    <td>{{bedInstance.patient}}</td>
+                    <td>{{bedInstance.admitted_on}}</td>
+                    <td>{{bedInstance.discharged_on}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary "onclick="goBack()">Go Back</button>
+    </div>
+
+</div>
+{% endblock %}

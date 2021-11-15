@@ -1,5 +1,5 @@
 from django.forms import ModelForm, widgets
-from hospital.models import Appointment
+from hospital.models import Appointment, Bed, BedInstance
 from django.contrib.admin.widgets import AdminTimeWidget, AdminDateWidget
 
 class ManageAppointmentForm(ModelForm):
