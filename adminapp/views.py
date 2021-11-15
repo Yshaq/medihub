@@ -210,11 +210,32 @@ def editDoctorView(request, id):
     form = DoctorForm(instance=doctor)
 
     if (request.method == 'POST'):
-        form = DoctorForm(request.POST, request.FILES, instance=doctor)
+        form = DoctorForm(request.POST, instance=doctor)
         if form.is_valid():
             form.save()
             messages.success(request, 'Data saved')
             return redirect('doctor-list')
+        else:
+            messages.error(request, 'Invalid form')
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'adminapp/model_form.html', context)
+
+@login_required(login_url='admin-login')
+@user_passes_test(is_admin, login_url='admin-login')
+def editPatientView(request, id):
+    patient = get_object_or_404(Patient, pk=id)
+    form = PatientForm(instance=patient)
+
+    if (request.method == 'POST'):
+        form = PatientForm(request.POST, request.FILES, instance=patient)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Data saved')
+            return redirect('patient-list')
         else:
             messages.error(request, 'Invalid form')
 

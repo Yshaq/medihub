@@ -6,7 +6,7 @@ from django.forms import widgets
 class DoctorForm(ModelForm):
     class Meta:
         model = Doctor
-        fields = '__all__'
+        fields = ('first_name', 'last_name', 'gender', 'dob', 'department', 'phone', 'address', 'email', 'schedule')
         widgets = {
             'dob': widgets.DateInput(attrs={'type': 'date'}),
         }
